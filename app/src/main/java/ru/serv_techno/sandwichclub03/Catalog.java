@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Catalog extends SugarRecord {
 
-    int id;
+    //int ext_id;
     String name;
     int parent_id;
     String code;
@@ -19,8 +19,8 @@ public class Catalog extends SugarRecord {
     public Catalog() {
     }
 
-    public Catalog(int id, String name, int parent_id, String code, int active,   int countProducts) {
-        this.id = id;
+    public Catalog(String name, int parent_id, String code, int active,   int countProducts) {
+        //this.ext_id = ext_id;
         this.active = active;
         this.code = code;
         this.name = name;

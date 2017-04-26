@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Maxim on 18.08.2016.
  */
 public class Product extends SugarRecord {
-    int id;
+    //int ext_id;
     String name;
     String description;
     float price;
@@ -27,10 +27,10 @@ public class Product extends SugarRecord {
     public Product() {
     }
 
-    public Product(int id, String name, String description, float price, String weight,
+    public Product(String name, String description, float price, String weight,
                    int catalog1, int catalog2, int mainview, String text, int like, String code,
                    int active, String imagelink, String bigImageLink, String weightText) {
-        this.id = id;
+       // this.ext_id = ext_id;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -48,7 +48,7 @@ public class Product extends SugarRecord {
     }
 
     public static List<Product> getProductsMainView() {
-        return Product.find(Product.class, "main_view = ?", "1");
+        return Product.find(Product.class, "mainview = ?", "1");
     }
 
     public static List<Product> getProductsCatalog1(String catalog1) {

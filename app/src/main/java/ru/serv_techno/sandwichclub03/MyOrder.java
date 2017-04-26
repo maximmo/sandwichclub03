@@ -13,7 +13,7 @@ import okhttp3.RequestBody;
  */
 public class MyOrder extends SugarRecord {
 
-    int extid;
+    int id;
     float price;
     long createdat;
     int numberperson;
@@ -25,8 +25,8 @@ public class MyOrder extends SugarRecord {
     public MyOrder() {
     }
 
-    public MyOrder(int extid, float price, long createdat, int numberperson, int delivery, String clientname, String clientphone, String clientaddress) {
-        this.extid = extid;
+    public MyOrder(int id, float price, long createdat, int numberperson, int delivery, String clientname, String clientphone, String clientaddress) {
+        this.id = id;
         this.price = price;
         this.createdat = createdat;
         this.numberperson = numberperson;
@@ -69,7 +69,7 @@ public class MyOrder extends SugarRecord {
             Product product = Product.getProductById(p.productid);
             if (product != null) {
 
-                rb = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(product.extid));
+                rb = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(product.getId()));
                 mp.put("products[" + String.valueOf(i) + "][product_id]", rb);
 
                 rb = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(p.amount));

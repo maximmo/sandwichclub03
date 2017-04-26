@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/itemlist_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        card_view:cardCornerRadius="4dp"
+        android:layout_alignParentTop="true">
+
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteY="0dp"
+            tools:layout_editor_absoluteX="0dp">
+
+            <TextView
+                android:id="@+id/cwProductPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:text="250 рублей"
+                card_view:layout_constraintLeft_toLeftOf="@+id/cwProductName"
+                android:layout_marginTop="8dp"
+                card_view:layout_constraintTop_toBottomOf="@+id/cwProductName" />
+
+            <TextView
+                android:id="@+id/cwProductName"
+                android:layout_width="228dp"
+                android:layout_height="23dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Бургер Классический"
+                card_view:layout_constraintRight_toRightOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/cwProductImg"
+                android:layout_width="100dp"
+                android:layout_height="80dp"
+                card_view:srcCompat="@drawable/logo"
+                android:layout_marginLeft="8dp"
+                card_view:layout_constraintLeft_toLeftOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/cwAddBasket"
+                android:layout_width="90dp"
+                android:layout_height="45dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginRight="8dp"
+                android:text="В корзину"
+                android:textColor="@android:color/background_light"
+                android:textSize="10sp"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintRight_toRightOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

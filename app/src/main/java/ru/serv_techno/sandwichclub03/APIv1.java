@@ -21,10 +21,10 @@ public interface APIv1 {
     @POST("/api/v1/order/create")
     Call<ResponseBody> SendOrder(@PartMap Map<String, RequestBody> params);
 
-    @GET("/api/vi/catalog/index")
+    @GET("/api/v1/catalog/index")
     Call<List<Catalog>> getCatalogs(@Query("per-page") int count);
 
-    @GET("/api/vi/product/index")
+    @GET("/api/v1/product/index")
     Call<List<Product>> getProducts(@Query("per-page") int count);
 
 }
