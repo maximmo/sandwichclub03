@@ -1,8 +1,12 @@
 package ru.serv_techno.sandwichclub03;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -13,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +25,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private List<Product> productList;
-    private RecyclerView rv;
+    List<Product> productList;
+    List<Catalog> catalogList;
+    RecyclerView rvCatalogs;
+    RecyclerView rvProducts;
+    DrawerLayout drawer;
+    NavigationView navigationView;
+    ProductAdapter productAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,32 +49,91 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
             this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        //drawer.setDrawerListener(toggle);
+        drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        if (navigationView!=null){
+            navigationView.setNavigationItemSelectedListener(this);
+        }
 
-        //определим RecyclerView
-        rv = (RecyclerView)findViewById(R.id.rwProducts);
+        //определим RecyclerView для каталогов и передадим в адаптер групп
+        catalogList = new ArrayList<>();
+        catalogList = Catalog.getCatalogsMain();
+        final CatalogAdapter catalogAdapter = new CatalogAdapter(this, catalogList);
+        rvCatalogs = (RecyclerView)findViewById(R.id.rwCatalogs);
+        if(rvCatalogs!=null) {
+            rvCatalogs.setAdapter(catalogAdapter);
 
-        //получим товары для главной страницы
+            rvCatalogs.addOnItemTouchListener(new RecyclerClickListener(this) {
+                @Override
+                public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+                    return;
+                }
+
+                @Override
+                public void onItemClick(RecyclerView rvCatalogs, View itemView, int position) {
+                    //Toast.makeText(getApplicationContext(), catalogAdapter.getItem(position).name, Toast.LENGTH_SHORT).show();
+                    Catalog cat = catalogAdapter.getItem(position);
+                    Long catId = cat.getId();
+                    //здесь переключим текущую группу
+                    productList = new ArrayList<>();
+                    productList.clear();
+                    productList = Product.getProductsCatalog1(String.valueOf(catId));
+                    MainActivity.this.productAdapter = new ProductAdapter(MainActivity.this, productList);
+                    rvProducts = (RecyclerView)findViewById(R.id.rwProducts);
+                    rvProducts.setItemAnimator(new DefaultItemAnimator());
+                    if(rvProducts!=null){
+                        rvProducts.setAdapter(productAdapter);
+                        productAdapter.notifyDataSetChanged();
+                        getSupportActionBar().setTitle(cat.name);
+                        drawer.closeDrawer(navigationView);
+
+                    }
+                }
+            });
+        }
+
+        //определим RecyclerView для товаров, получим товары для главной страницы, проинициализируем адаптер
         productList = new ArrayList<>();
-        List<Product> productList = Product.getProductsMainView();
-        ProductAdapter adapter = new ProductAdapter(this, productList);
-        rv.setAdapter(adapter);
-        //List<Product> productList = Product.listAll(Product.class);
-        //инициализируем адаптер
-        //initializeProductAdapter();
-    }
+        productList.clear();
+        productList = Product.getProductsMainView();
+        MainActivity.this.productAdapter = new ProductAdapter(this, productList);
+        rvProducts = (RecyclerView)findViewById(R.id.rwProducts);
+        rvProducts.setItemAnimator(new DefaultItemAnimator());
+        if(rvProducts!=null){
+            rvProducts.setAdapter(productAdapter);
+            productAdapter.notifyDataSetChanged();
+            rvProducts.addOnItemTouchListener(new RecyclerClickListener(this) {
+                @Override
+                public void onItemClick(RecyclerView recyclerView, View itemView, int position) {
+                    //Toast.makeText(MainActivity.this, MainActivity.this.productAdapter.getItem(position).name, Toast.LENGTH_SHORT).show();
+                    Product product = MainActivity.this.productAdapter.getItem(position);
+                    if(product!=null){
+                        switch (itemView.getId()){
+                            case R.id.cwAddBasket:
+                                //не работает
+                                Toast.makeText(MainActivity.this, "Товар добавлен в корзину", Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                //Toast.makeText(MainActivity.this, "Открываем карточку товара", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(MainActivity.this, ProductActivity.class);
+                                MainActivity.this.startActivity(intent);
+                                //break;
+                        }
+                    }
+                }
 
-//    private void initializeProductAdapter(){
-//        ProductAdapter adapter = new ProductAdapter(this, productList);
-//        rv.setAdapter(adapter);
-//    }
+                @Override
+                public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+                    return;
+                }
+            });
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -91,7 +160,12 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.nav_call) {
+            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:83012406806"));
+            startActivity(intent);
+        }else if (id == R.id.nav_map) {
+            return true;
+        }else if (id == R.id.nav_profile) {
             return true;
         }
 
@@ -104,17 +178,11 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_map) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_call) {
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_profile) {
 
         }
 

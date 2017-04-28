@@ -48,15 +48,15 @@ public class Product extends SugarRecord {
     }
 
     public static List<Product> getProductsMainView() {
-        return Product.find(Product.class, "mainview = ?", "1");
+        return Product.find(Product.class, "mainview = ? and active = ?", "1", "1");
     }
 
     public static List<Product> getProductsCatalog1(String catalog1) {
-        return Product.find(Product.class, "catalog_1 = ?", catalog1);
+        return Product.find(Product.class, "catalog1 = ? and active = ?", catalog1, "1");
     }
 
     public static List<Product> getProductsCatalog2(String catalog2) {
-        return Product.find(Product.class, "catalog_1 = ?", catalog2);
+        return Product.find(Product.class, "catalog1 = ?", catalog2);
     }
 
     public static Product getProductById(int productid) {

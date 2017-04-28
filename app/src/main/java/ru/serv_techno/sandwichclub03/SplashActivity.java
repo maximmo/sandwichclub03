@@ -49,6 +49,9 @@ public class SplashActivity extends AppCompatActivity {
                 if (response!=null){
                     catalogList.addAll(response.body());
 
+                    //сделаем все каталоги неактивными
+                    setUnactiveCatalogs();
+
                     for(int i=0;i<catalogList.size();i++){
                         try{
                             Catalog cat = catalogList.get(i);
@@ -83,6 +86,9 @@ public class SplashActivity extends AppCompatActivity {
                 if (response!=null){
                     productList.addAll(response.body());
 
+                    //сделаем все товары неактивными
+                    setUnactiveProducts();
+
                     for(int i=0;i<productList.size();i++){
                         try{
                             Product prod = productList.get(i);
@@ -110,6 +116,8 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
 
+
+
         //запустим MainActivity
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -120,6 +128,38 @@ public class SplashActivity extends AppCompatActivity {
             }
         }, 5 * 1000);
 
+    }
+
+    private void setUnactiveCatalogs(){
+        List<Catalog> allCatalogs = Catalog.listAll(Catalog.class);
+        if(allCatalogs.size()>0){
+            for(int i=0;i<allCatalogs.size();i++){
+               Catalog catalog = allCatalogs.get(i);
+               catalog.active = 0;
+                try{
+                    catalog.save();
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Log.e(LOG_TAG, "Ошибка при записи группы: " + e.getMessage());
+                }
+            }
+        }
+    }
+
+    private void setUnactiveProducts(){
+        List<Product> allProducts = Product.listAll(Product.class);
+        if(allProducts.size()>0){
+            for(int i=0;i<allProducts.size();i++){
+                Product product = allProducts.get(i);
+                product.active = 0;
+                try{
+                    product.save();
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Log.e(LOG_TAG, "Ошибка при записи товара: " + e.getMessage());
+                }
+            }
+        }
     }
 
 }

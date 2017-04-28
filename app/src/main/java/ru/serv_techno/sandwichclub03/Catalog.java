@@ -29,7 +29,7 @@ public class Catalog extends SugarRecord {
     }
 
     public static List<Catalog> getCatalogsMain() {
-        return Catalog.find(Catalog.class, "parent_id = ?", "0");
+        return Catalog.find(Catalog.class, "parentid = ? and active = ?", "0", "1");
     }
 
 }

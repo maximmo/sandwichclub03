@@ -32,7 +32,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public static class ProductViewHolder extends RecyclerView.ViewHolder{
         CardView cardView;
         TextView productName;
-        TextView productPrice;
+        TextView productWeight;
         Button addButton;
         ImageView imageView;
 
@@ -41,7 +41,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
             cardView = (CardView)itemView.findViewById(R.id.itemlist_card_view);
             productName = (TextView)itemView.findViewById(R.id.cwProductName);
-            productPrice = (TextView)itemView.findViewById(R.id.cwProductPrice);
+            productWeight = (TextView)itemView.findViewById(R.id.cwProductWeight);
             addButton = (Button)itemView.findViewById(R.id.cwAddBasket);
             imageView = (ImageView)itemView.findViewById(R.id.cwProductImg);
         }
@@ -59,7 +59,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         Product prod = productList.get(position);
 
         holder.productName.setText(prod.name);
-        holder.productPrice.setText(String.valueOf(prod.price)+" \u20BD");
+        holder.productWeight.setText(prod.weightText);
         if (prod.imageLink!= null) {
             Picasso.with(ctx.getApplicationContext())
                     .load(prod.bigImageLink)
@@ -67,6 +67,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     .error(R.drawable.logo)
                     .into(holder.imageView);
         }
+        //String.valueOf(prod.price)+" \u20BD"
+        int itemPrice = (int)prod.price;
+        holder.addButton.setText(String.valueOf(itemPrice)+" \u20BD");
         holder.addButton.setTag(position);
     }
 
@@ -75,6 +78,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return productList.size();
     }
 
-
+    public Product getItem(int position){
+        return productList.get(position);
+    }
 }
 
