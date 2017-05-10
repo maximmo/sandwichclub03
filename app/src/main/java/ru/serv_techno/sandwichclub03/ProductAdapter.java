@@ -1,11 +1,14 @@
 package ru.serv_techno.sandwichclub03;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +25,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     Context ctx;
     List<Product> productList;
+
+    int lastPosition = -1;
 
     //Конструктор адаптера
     ProductAdapter(Context ctx, List<Product> productList){
@@ -61,17 +66,53 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.productName.setText(prod.name);
         holder.productWeight.setText(prod.weightText);
         if (prod.imageLink!= null) {
-            Picasso.with(ctx.getApplicationContext())
+            Picasso.with(ctx)
                     .load(prod.bigImageLink)
-                    .placeholder(R.drawable.logo)
-                    .error(R.drawable.logo)
+                    .placeholder(R.drawable.burger)
+                    .error(R.drawable.burger)
                     .into(holder.imageView);
         }
-        //String.valueOf(prod.price)+" \u20BD"
+
         int itemPrice = (int)prod.price;
         holder.addButton.setText(String.valueOf(itemPrice)+" \u20BD");
-        holder.addButton.setTag(position);
+        holder.addButton.setTag(String.valueOf(prod.getId()));
+        holder.addButton.setOnClickListener(btnItemPress);
+
+        if(position >lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(ctx, R.anim.product_rw_anim);
+            holder.itemView.startAnimation(animation);
+            lastPosition = position;
+        }else{
+            Animation animation = AnimationUtils.loadAnimation(ctx, R.anim.product_rw_anim_up);
+            holder.itemView.startAnimation(animation);
+            lastPosition = position;
+        }
+
+
     }
+
+    View.OnClickListener btnItemPress = new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            int productid = Integer.parseInt(v.getTag().toString());
+            Product product = Product.getProductById(productid);
+            if(product!=null){
+                boolean result = Basket.AddProduct(product);
+                if(result){
+                    Snackbar snackbar = Snackbar.make(v, "Добавлен товар: " + product.name, Snackbar.LENGTH_SHORT);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundResource(R.color.SnackbarBg);
+                    snackbar.show();
+                }else{
+                    Snackbar snackbar = Snackbar.make(v, "Не удалось добавить позицию: " + product.name, Snackbar.LENGTH_SHORT);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundResource(R.color.SnackbarBgRed);
+                    snackbar.show();
+                }
+            }
+
+        }
+    };
 
     @Override
     public int getItemCount() {

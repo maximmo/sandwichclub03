@@ -30,6 +30,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        getSupportActionBar().hide();
+
         retrofit = new Retrofit.Builder()
                 .baseUrl("http://admin.serv-techno.ru/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -126,7 +128,7 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(myIntent);
                 finish();
             }
-        }, 5 * 1000);
+        }, 3 * 1000);
 
     }
 

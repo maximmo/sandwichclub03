@@ -1,11 +1,9 @@
 package ru.serv_techno.sandwichclub03;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -44,8 +42,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //перейдем к оформлению заказа
+
             }
         });
 
@@ -67,7 +65,7 @@ public class MainActivity extends AppCompatActivity
         rvCatalogs = (RecyclerView)findViewById(R.id.rwCatalogs);
         if(rvCatalogs!=null) {
             rvCatalogs.setAdapter(catalogAdapter);
-
+            catalogAdapter.notifyDataSetChanged();
             rvCatalogs.addOnItemTouchListener(new RecyclerClickListener(this) {
                 @Override
                 public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
@@ -76,7 +74,6 @@ public class MainActivity extends AppCompatActivity
 
                 @Override
                 public void onItemClick(RecyclerView rvCatalogs, View itemView, int position) {
-                    //Toast.makeText(getApplicationContext(), catalogAdapter.getItem(position).name, Toast.LENGTH_SHORT).show();
                     Catalog cat = catalogAdapter.getItem(position);
                     Long catId = cat.getId();
                     //здесь переключим текущую группу
@@ -86,6 +83,7 @@ public class MainActivity extends AppCompatActivity
                     MainActivity.this.productAdapter = new ProductAdapter(MainActivity.this, productList);
                     rvProducts = (RecyclerView)findViewById(R.id.rwProducts);
                     rvProducts.setItemAnimator(new DefaultItemAnimator());
+                    //itemView.setBackgroundResource(R.color.SnackbarBgRed);
                     if(rvProducts!=null){
                         rvProducts.setAdapter(productAdapter);
                         productAdapter.notifyDataSetChanged();
@@ -119,10 +117,10 @@ public class MainActivity extends AppCompatActivity
                                 Toast.makeText(MainActivity.this, "Товар добавлен в корзину", Toast.LENGTH_SHORT).show();
                                 break;
                             default:
-                                //Toast.makeText(MainActivity.this, "Открываем карточку товара", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(MainActivity.this, ProductActivity.class);
-                                MainActivity.this.startActivity(intent);
-                                //break;
+                                intent.putExtra("ProductID", product.getId());
+                                startActivity(intent);
+                                break;
                         }
                     }
                 }
