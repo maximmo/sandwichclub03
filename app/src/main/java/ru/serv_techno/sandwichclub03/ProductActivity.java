@@ -25,6 +25,7 @@ public class ProductActivity extends AppCompatActivity {
         product = Product.getProductById((int) getIntent().getLongExtra("ProductID", 0));
         if(product==null){
             finish();
+            return;
         }
 
         TextView productActivityText = (TextView)findViewById(R.id.productActivityText);

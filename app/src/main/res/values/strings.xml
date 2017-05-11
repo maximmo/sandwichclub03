@@ -6,6 +6,7 @@
     <string name="navigation_drawer_open">Открыть панель навигации</string>
     <string name="navigation_drawer_close">Закрыть панель навигации</string>
     <string name="title_activity_product">ProductActivity</string>
+    <string name="title_activity_profile">UserProfile</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

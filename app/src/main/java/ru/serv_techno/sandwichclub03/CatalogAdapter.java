@@ -27,11 +27,15 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogV
     public static class CatalogViewHolder extends RecyclerView.ViewHolder{
 
         TextView rwItemCatalog;
+        TextView rwItemCatalogCount;
+        //View rwItemCatalogShape;
 
         CatalogViewHolder(View itemView){
             super(itemView);
 
             rwItemCatalog = (TextView)itemView.findViewById(R.id.rwItemCatalog);
+            rwItemCatalogCount = (TextView)itemView.findViewById(R.id.rwItemCatalogCount);
+            //rwItemCatalogShape = (View)itemView.findViewById(R.id.rwItemCatalogShape);
         }
 
     }
@@ -48,6 +52,8 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogV
         Catalog catalog = catalogList.get(position);
 
         holder.rwItemCatalog.setText(catalog.name);
+        holder.rwItemCatalogCount.setText(String.valueOf(catalog.countProducts));
+
     }
 
     public Catalog getItem(int position){

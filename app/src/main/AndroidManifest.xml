@@ -45,7 +45,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UserProfileActivity"
-            android:screenOrientation="portrait"/>
+            android:label="@string/title_activity_profile"
+            android:screenOrientation="portrait" />
+        <activity android:name=".BasketActivity"></activity>
     </application>
 
 </manifest>

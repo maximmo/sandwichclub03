@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -42,8 +43,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //перейдем к оформлению заказа
-
+                Intent intent = new Intent(MainActivity.this, BasketActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -164,7 +165,8 @@ public class MainActivity extends AppCompatActivity
         }else if (id == R.id.nav_map) {
             return true;
         }else if (id == R.id.nav_profile) {
-            return true;
+            Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
