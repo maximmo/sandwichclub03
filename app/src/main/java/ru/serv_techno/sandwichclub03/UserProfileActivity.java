@@ -1,5 +1,6 @@
 package ru.serv_techno.sandwichclub03;
 
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -91,6 +92,9 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 try{
                     userProfile.save();
                     showMySnackbar(v, "Профиль успешно сохранен!", true);
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
                 catch (Exception e){
                     Log.e(String.valueOf(R.string.app_name), e.getMessage());

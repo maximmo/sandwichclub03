@@ -84,4 +84,21 @@ public class Basket extends SugarRecord {
     public static void ClearBasket(){
         Basket.deleteAll(Basket.class);
     }
+
+    public static float getBasketSumm() {
+
+        float summ = 0;
+
+        List<Basket> basketList = Basket.listAll(Basket.class);
+
+        for (int i=0;i<basketList.size();i++){
+            Product p = Product.getProductById(basketList.get(i).itembasket);
+
+            if(p!=null) {
+                summ = summ + basketList.get(i).countProducts * p.price;
+            }
+        }
+
+        return summ;
+    }
 }
