@@ -9,4 +9,5 @@
     <color name="SnackbarBgRed">#D9534F</color>
     <color name="colorFAB">#2196F3</color>
     <color name="colorEndSpinner">#F1F1F1</color>
+    <color name="OrderInfoBg">#D9EDF7</color>
 </resources>

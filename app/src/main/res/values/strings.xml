@@ -97,6 +97,11 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="CreateOrderText">Заказать</string>
+    <string name="OrderInfoText">
+        Доставка бесплатная в черте города при заказе от 600 рублей. При заказе до 600 рублей доставка рассчитывается индивидуально, в зависимости от расстояния.
+    </string>
+    <string name="OfferText">Я подтверждаю своё согласие на хранение и обработку моих персональных данных</string>
 
 
 </resources>

@@ -1,6 +1,8 @@
 package ru.serv_techno.sandwichclub03;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -15,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,10 +57,6 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
         ReloadProfileData();
         BasketProfile.setOnClickListener(this);
 
-        CreateOrder = (Button)findViewById(R.id.CreateOrder);
-        CreateOrder.setOnClickListener(this);
-        BasketOffer = (CheckBox)findViewById(R.id.BasketOffer);
-
         //проставим switchPay и switchDelivery
         switchPay = (Switch)findViewById(R.id.switchPay);
         if(switchPay!=null){
@@ -72,6 +71,18 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
             switchDelivery.setOnCheckedChangeListener(this);
         }
 
+        //установим доступность кнопки заказа
+        CreateOrder = (Button)findViewById(R.id.CreateOrder);
+        CreateOrder.setOnClickListener(this);
+        BasketOffer = (CheckBox)findViewById(R.id.BasketOffer);
+        BasketOffer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SetCreateOrderAvailability();
+            }
+        });
+        SetCreateOrderAvailability();
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         RefreshBasketSumm();
@@ -81,6 +92,7 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.CreateOrder:
+                Toast.makeText(this, "Создать заказ!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.BasketProfile:
                 Intent intent = new Intent(BasketActivity.this, UserProfileActivity.class);
@@ -105,9 +117,20 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void RefreshBasketSumm(){
+    public void RefreshBasketSumm(){
         Float BasketSumm = Basket.getBasketSumm();
         getSupportActionBar().setTitle("Сумма заказа: " + String.valueOf(BasketSumm) + " \u20BD");
+    }
+
+    private void SetCreateOrderAvailability(){
+        Boolean UserUnset = userProfile==null;
+
+        CreateOrder.setEnabled(BasketOffer.isChecked()&&UserUnset==false);
+        if(CreateOrder.isEnabled()&&UserUnset==false){
+            CreateOrder.setBackgroundColor(ContextCompat.getColor(BasketActivity.this, R.color.productBtnBgColor));
+        }else{
+            CreateOrder.setBackgroundColor(Color.GRAY);
+        }
     }
 
     @Override

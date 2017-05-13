@@ -35,7 +35,7 @@
         <android.support.v7.widget.CardView
             android:id="@+id/BasketProfile"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="56dp"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -49,6 +49,7 @@
 
             <TextView
                 android:id="@+id/BasketProfileName"
+                android:drawableLeft="@drawable/user_40"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="8dp"
@@ -80,14 +81,14 @@
 
             <Switch
                 android:id="@+id/switchPay"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Наличными" />
 
             <Switch
                 android:id="@+id/switchDelivery"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Доставка" />
@@ -102,24 +103,43 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:text="Я подтверждаю своё согласие на хранение и обработку моих персональных данных"
+            android:text="@string/OfferText"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/BasketLinearLayout" />
 
+
+        <TextView
+            android:id="@+id/OrderInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="10dp"
+            android:padding="8dp"
+            android:layout_weight="1"
+            android:text="@string/OrderInfoText"
+            android:background="@color/OrderInfoBg"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/BasketOffer" >
+
+        </TextView>
         <Button
             android:id="@+id/CreateOrder"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:text="Заказать"
-            android:textColor="@color/colorEndSpinner"
+            android:text="@string/CreateOrderText"
+            android:textColor="@color/cardview_light_background"
+            android:background="@color/productBtnBgColor"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/BasketOffer" />
+            app:layout_constraintTop_toBottomOf="@+id/OrderInfo"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

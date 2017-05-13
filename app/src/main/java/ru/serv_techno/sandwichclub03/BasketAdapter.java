@@ -17,6 +17,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import static ru.serv_techno.sandwichclub03.R.id.BasketCountItem;
+
 /**
  * Created by Maxim on 27.04.2017.
  */
@@ -29,12 +31,12 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
     int lastPosition = -1;
 
     //Конструктор адаптера
-    BasketAdapter(Context ctx, List<Basket> basketList){
+    BasketAdapter(Context ctx, List<Basket> basketList) {
         this.ctx = ctx;
         this.basketList = basketList;
     }
 
-    public static class BasketViewHolder extends RecyclerView.ViewHolder{
+    public static class BasketViewHolder extends RecyclerView.ViewHolder {
         CardView BasketItemCardView;
         ImageView cwBasketImg;
         TextView cwBasketProductName;
@@ -42,15 +44,15 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
         Button BasketCountItem;
         Button MinusBtn;
 
-        BasketViewHolder(View itemView){
+        BasketViewHolder(View itemView) {
             super(itemView);
 
-            BasketItemCardView = (CardView)itemView.findViewById(R.id.BasketItemCardView);
-            cwBasketProductName = (TextView)itemView.findViewById(R.id.cwBasketProductName);
-            PlusBtn = (Button)itemView.findViewById(R.id.PlusBtn);
-            BasketCountItem = (Button)itemView.findViewById(R.id.BasketCountItem);
-            MinusBtn = (Button)itemView.findViewById(R.id.MinusBtn);
-            cwBasketImg = (ImageView)itemView.findViewById(R.id.cwBasketImg);
+            BasketItemCardView = (CardView) itemView.findViewById(R.id.BasketItemCardView);
+            cwBasketProductName = (TextView) itemView.findViewById(R.id.cwBasketProductName);
+            PlusBtn = (Button) itemView.findViewById(R.id.PlusBtn);
+            BasketCountItem = (Button) itemView.findViewById(R.id.BasketCountItem);
+            MinusBtn = (Button) itemView.findViewById(R.id.MinusBtn);
+            cwBasketImg = (ImageView) itemView.findViewById(R.id.cwBasketImg);
         }
     }
 
@@ -67,10 +69,10 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
 
         Product product = Product.getProductById(basket.itembasket);
 
-        if(product!=null){
+        if (product != null) {
             holder.cwBasketProductName.setText(product.name);
 
-            if (product.imageLink!= null) {
+            if (product.imageLink != null) {
                 Picasso.with(ctx)
                         .load(product.bigImageLink)
                         .placeholder(R.drawable.burger)
@@ -81,52 +83,62 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
             int countProducts = basket.countProducts;
             holder.BasketCountItem.setText(String.valueOf(countProducts));
             holder.BasketCountItem.setTag(String.valueOf(basket.getId()));
-            //holder.BasketCountItem.setOnClickListener(btnItemPress);
+            holder.PlusBtn.setOnClickListener(btnItemPress);
+            holder.PlusBtn.setTag(String.valueOf(position));
+            holder.MinusBtn.setOnClickListener(btnItemPress);
+            holder.MinusBtn.setTag(String.valueOf(position));
         }
-
-
-//        if(position >lastPosition) {
-//            Animation animation = AnimationUtils.loadAnimation(ctx, R.anim.product_rw_anim);
-//            holder.itemView.startAnimation(animation);
-//            lastPosition = position;
-//        }else{
-//            Animation animation = AnimationUtils.loadAnimation(ctx, R.anim.product_rw_anim_up);
-//            holder.itemView.startAnimation(animation);
-//            lastPosition = position;
-//        }
-
-
     }
 
-//    View.OnClickListener btnItemPress = new View.OnClickListener(){
-//        @Override
-//        public void onClick(View v) {
-//            int productid = Integer.parseInt(v.getTag().toString());
-//            Product product = Product.getProductById(productid);
-//            if(product!=null){
-//                boolean result = Basket.AddProduct(product);
-//                if(result){
-//                    Snackbar snackbar = Snackbar.make(v, "Добавлен товар: " + product.name, Snackbar.LENGTH_SHORT);
-//                    View snackbarView = snackbar.getView();
-//                    snackbarView.setBackgroundResource(R.color.SnackbarBg);
-//                    snackbar.show();
-//                }else{
-//                    Snackbar snackbar = Snackbar.make(v, "Не удалось добавить позицию: " + product.name, Snackbar.LENGTH_SHORT);
-//                    View snackbarView = snackbar.getView();
-//                    snackbarView.setBackgroundResource(R.color.SnackbarBgRed);
-//                    snackbar.show();
-//                }
-//            }
-//
-//        }
-//    };
+    View.OnClickListener btnItemPress = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = Integer.parseInt(v.getTag().toString());
+            Basket basket = basketList.get(position);
+            if(basket==null){
+                return;
+            }
+            Product product = Product.getProductById(basket.itembasket);
+            int countProductsLocal = basket.countProducts;
+
+            if (product != null) {
+                switch (v.getId()) {
+                    case R.id.PlusBtn:
+                        boolean result = Basket.AddProduct(product);
+                        if (result) {
+                            basket.countProducts++;
+                            MySnackbar.ShowMySnackbar(v, "Добавлен товар: " + product.name, R.color.SnackbarBg);
+                        } else {
+                            MySnackbar.ShowMySnackbar(v, "Не удалось добавить позицию: " + product.name, R.color.SnackbarBgRed);
+                        }
+                        break;
+                    case R.id.MinusBtn:
+                        boolean resultMinus = Basket.MinusProduct(product);
+                        if (resultMinus) {
+                            if(countProductsLocal==1){
+                                basketList.remove(basket);
+                            }else{
+                                basket.countProducts--;
+                            }
+
+                            MySnackbar.ShowMySnackbar(v, "Товар удален из корзины: " + product.name, R.color.SnackbarBg);
+                        } else {
+                            MySnackbar.ShowMySnackbar(v, "Не удалось удалить позицию: " + product.name, R.color.SnackbarBgRed);
+                        }
+                        break;
+                }
+            }
+            ((BasketActivity)ctx).basketAdapter.notifyDataSetChanged();
+            ((BasketActivity)ctx).RefreshBasketSumm();
+        }
+    };
 
     @Override
     public int getItemCount() {
         return basketList.size();
     }
 
-    public Basket getItem(int position){
+    public Basket getItem(int position) {
         return basketList.get(position);
     }
 }

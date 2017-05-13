@@ -71,14 +71,14 @@
                 app:layout_constraintRight_toRightOf="parent">
 
                 <Button
-                    android:id="@+id/PlusBtn"
+                    android:id="@+id/MinusBtn"
                     style="@android:style/Widget.Holo.Button.Borderless"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="+"
+                    android:text="-"
                     android:textColor="#00b0e4"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
                 <Button
                     android:id="@+id/BasketCountItem"
@@ -89,17 +89,17 @@
                     android:clickable="false"
                     android:text="1"
                     android:textColor="#00b0e4"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
                 <Button
-                    android:id="@+id/MinusBtn"
+                    android:id="@+id/PlusBtn"
                     style="@android:style/Widget.Holo.Button.Borderless"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="-"
+                    android:text="+"
                     android:textColor="#00b0e4"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
