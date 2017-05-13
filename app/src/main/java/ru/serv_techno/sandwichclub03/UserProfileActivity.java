@@ -71,15 +71,15 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 String addressProfile = ProfileAddressEditText.getText().toString();
 
                 if(nameProfile.equals("")){
-                    showMySnackbar(v, "Укажите имя и повторите попытку!", false);
+                    MySnackbar.ShowMySnackbar(v, "Укажите имя и повторите попытку!", R.color.SnackbarBg);
                     break;
                 }
                 if(phoneProfile.equals("")){
-                    showMySnackbar(v, "Укажите телефон и повторите попытку!", false);
+                    MySnackbar.ShowMySnackbar(v, "Укажите телефон и повторите попытку!", R.color.SnackbarBg);
                     break;
                 }
                 if(addressProfile.equals("")){
-                    showMySnackbar(v, "Укажите адрес доставки и повторите попытку!", false);
+                    MySnackbar.ShowMySnackbar(v, "Укажите адрес доставки и повторите попытку!", R.color.SnackbarBg);
                     break;
                 }
                 if(userProfile!=null){
@@ -91,7 +91,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 }
                 try{
                     userProfile.save();
-                    showMySnackbar(v, "Профиль успешно сохранен!", true);
+                    MySnackbar.ShowMySnackbar(v, "Профиль успешно сохранен!", R.color.SnackbarBg);
                     Intent intent = new Intent();
                     setResult(RESULT_OK, intent);
                     finish();
@@ -104,16 +104,4 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 break;
         }
     }
-
-    public void showMySnackbar(View view, String textMessage, boolean positive){
-
-        Snackbar mSnackbar = Snackbar.make(view, textMessage, Snackbar.LENGTH_SHORT);
-        View snackbarView = mSnackbar.getView();
-        snackbarView.setBackgroundResource(R.color.SnackbarBg);
-        if (!positive) {
-            snackbarView.setBackgroundResource(R.color.SnackbarBgRed);
-        }
-        mSnackbar.show();
-    }
-
 }

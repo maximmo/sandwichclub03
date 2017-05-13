@@ -1,8 +1,15 @@
 package ru.serv_techno.sandwichclub03;
 
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -19,8 +26,20 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BasketActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -34,6 +53,16 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
     BasketAdapter basketAdapter;
     List<Basket> basketList;
     UserProfile userProfile;
+    private MyOrder myOrder;
+
+    private Gson gson = new GsonBuilder().create();
+    private Retrofit retrofit = new Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .baseUrl("http://admin.serv-techno.ru")
+            .build();
+    private APIv1 intface = retrofit.create(APIv1.class);
+
+    ProgressDialog OrderProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,13 +115,29 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         RefreshBasketSumm();
+
+        if(basketList.size()==0){
+            MySnackbar.ShowMySnackbar(rwBasket, "Добавьте что-нибудь в корзину=)", R.color.SnackbarBgRed);
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.CreateOrder:
-                Toast.makeText(this, "Создать заказ!", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.dialog_create_order_title);
+                builder.setMessage(R.string.dialog_create_order_message);
+                builder.setCancelable(true);
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() { // Кнопка ОК
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        CreateOrder();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
                 break;
             case R.id.BasketProfile:
                 Intent intent = new Intent(BasketActivity.this, UserProfileActivity.class);
@@ -106,31 +151,6 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         ReloadProfileData();
-    }
-
-    private void ReloadProfileData(){
-        userProfile = UserProfile.getUser();
-        if(userProfile==null){
-            BasketProfileName.setText("Не заполнен профиль");
-        }else{
-            BasketProfileName.setText(userProfile.name);
-        }
-    }
-
-    public void RefreshBasketSumm(){
-        Float BasketSumm = Basket.getBasketSumm();
-        getSupportActionBar().setTitle("Сумма заказа: " + String.valueOf(BasketSumm) + " \u20BD");
-    }
-
-    private void SetCreateOrderAvailability(){
-        Boolean UserUnset = userProfile==null;
-
-        CreateOrder.setEnabled(BasketOffer.isChecked()&&UserUnset==false);
-        if(CreateOrder.isEnabled()&&UserUnset==false){
-            CreateOrder.setBackgroundColor(ContextCompat.getColor(BasketActivity.this, R.color.productBtnBgColor));
-        }else{
-            CreateOrder.setBackgroundColor(Color.GRAY);
-        }
     }
 
     @Override
@@ -162,6 +182,245 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
                     buttonView.setText("Самовывоз");
                 }
                 break;
+        }
+    }
+
+    private void ReloadProfileData(){
+        userProfile = UserProfile.getUser();
+        if(userProfile==null){
+            BasketProfileName.setText("Не заполнен профиль");
+        }else{
+            BasketProfileName.setText(userProfile.name);
+        }
+    }
+
+    public void RefreshBasketSumm(){
+        Float BasketSumm = Basket.getBasketSumm();
+        getSupportActionBar().setTitle("Сумма заказа: " + String.valueOf(BasketSumm) + " \u20BD");
+    }
+
+    private void SetCreateOrderAvailability(){
+        Boolean UserUnset = userProfile==null;
+        Boolean IsZero = basketList.size()==0;
+
+        CreateOrder.setEnabled(BasketOffer.isChecked()&&UserUnset==false&&IsZero==false);
+        if(CreateOrder.isEnabled()&&UserUnset==false&&IsZero==false){
+            CreateOrder.setBackgroundColor(ContextCompat.getColor(BasketActivity.this, R.color.productBtnBgColor));
+        }else{
+            CreateOrder.setBackgroundColor(Color.GRAY);
+        }
+    }
+
+    private void CreateOrder(){
+
+        //здесь создадим заказ
+        String paymentType = "cash";
+        if (switchPay.isChecked() == true) {
+            paymentType = "Наличными";
+        } else {
+            paymentType = "Картой";
+        }
+
+        String delivery = "yes";
+        if(switchDelivery.isChecked()==true){
+            delivery = "Доставка";
+        }else{
+            delivery = "Самовывоз";
+        }
+
+        //здесь нужно поместить данные из корзины в OrderProducts
+        for (Basket basketItem:basketList){
+            OrderProducts orderProduct = new OrderProducts(0, basketItem.itembasket, basketItem.countProducts);
+            try{
+                orderProduct.save();
+            }
+            catch (Exception e){
+                e.printStackTrace();
+                MySnackbar.ShowMySnackbar(CreateOrder, "Ошибка при создании заказа: " + e.toString(), R.color.SnackbarBgRed);
+                return;
+            }
+        }
+
+        List<OrderProducts> orderProducts = OrderProducts.getOrderProductsNew();
+
+        MyOrder myOrder = new MyOrder(0, Basket.getBasketSumm(), paymentType, 1, delivery, userProfile, orderProducts);
+        try{
+            myOrder.save();
+        }catch (Exception e){
+            e.printStackTrace();
+            MySnackbar.ShowMySnackbar(CreateOrder, "Ошибка при сохранении заказа: " + e.toString(), R.color.SnackbarBgRed);
+            return;
+        }
+
+        LinkedHashMap mp = myOrder.MakeRequestBodyOrder();
+
+        if(mp!=null) {
+            SendOrder so = new SendOrder();
+            so.execute(mp);
+        }
+    }
+
+    public void showMyNotification(String textMessage){
+
+        int NOTIFY_ID = 101;
+
+        Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this,
+                0, notificationIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
+
+        Notification.Builder builder = new Notification.Builder(this);
+        // оставим только самое необходимое
+        builder.setContentIntent(contentIntent)
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle("Sandwich Club 03")
+                .setContentText(textMessage); // Текст уведомления
+
+        Notification notification = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            notification = builder.build();
+        }
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(NOTIFY_ID, notification);
+    }
+
+    public void setDefaultStatus() throws InterruptedException {
+
+        onBackPressed();
+    }
+
+    class SendOrder extends AsyncTask<LinkedHashMap, Void, Map> {
+
+        public Map<String, Object> hmap = new HashMap<String, Object>();
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            hmap.put("result", false);
+            hmap.put("message", "Ошибка при отправке заказа!");
+            hmap.put("extid", "0");
+
+            OrderProgressDialog = new ProgressDialog(BasketActivity.this);
+            OrderProgressDialog.setTitle("Отправка заказа");
+            OrderProgressDialog.setMessage("Выполняется оформление заказа, пожалуйста подождите!");
+            OrderProgressDialog.setIndeterminate(true);
+            OrderProgressDialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(Map map) {
+            super.onPostExecute(map);
+
+            OrderProgressDialog.setIndeterminate(false);
+            OrderProgressDialog.dismiss();
+
+            if(map!=null){
+                Object res = map.get("result");
+                Object message = map.get("message");
+                Object extid = map.get("extid");
+
+                String StringRes = res.toString();
+
+                boolean BoolRes = Boolean.parseBoolean(StringRes);
+
+                if(BoolRes == true){
+                    List<MyOrder> myOrders = MyOrder.getNewMyOrders();
+
+                    MyOrder myOrderLocal = myOrders.get(0);
+
+                    myOrderLocal.setExtid(Integer.valueOf(extid.toString()));
+
+                    List<OrderProducts> orderProducts = OrderProducts.getOrderProductsNew();
+                    for(OrderProducts op : orderProducts){
+                        op.setExtid(Integer.valueOf(extid.toString()));
+                    }
+                    Basket.ClearBasket();
+
+                    showMyNotification(message.toString());
+                    try {
+                        setDefaultStatus();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    MySnackbar.ShowMySnackbar(CreateOrder, "Ошибка: " + message.toString(), R.color.SnackbarBgRed);
+                }
+            }
+        }
+
+        @Override
+        protected Map doInBackground(LinkedHashMap... params) {
+
+            String extid = "0";
+            Call<ResponseBody> call = intface.SendOrder(params[0]);
+            ResponseBody responseBody;
+            ResponseBody errorBody;
+
+            try {
+                retrofit2.Response<ResponseBody> response = call.execute();
+                if(response.code()==200||response.code()==201){
+
+                    responseBody = response.body();
+
+                    hmap.put("message", "Заказ принят! Наш менеджер свяжется с Вами! =)");
+                    hmap.put("result", true);
+                    hmap.put("extid", extid);
+
+                    String MyMessage = responseBody.string();
+
+                    Map<String, String> map = gson.fromJson(MyMessage, Map.class);
+
+                    for (Map.Entry e : map.entrySet()) {
+                        if(e.getKey().equals("id")){
+                            extid = e.getValue().toString();
+                            float fextid = Float.parseFloat(extid);
+                            int IntExtId = (int)fextid;
+                            extid = String.valueOf(IntExtId);
+
+                            hmap.put("extid", extid);
+                            hmap.put("message", "Номер заказа: " + extid);
+                        }
+                    }
+
+                }
+                else {
+                    errorBody = response.errorBody();
+
+                    hmap.put("result", false);
+                    hmap.put("message", "Ошибка: ");
+                    hmap.put("extid", extid);
+
+                    String MyMessage = errorBody.string();
+
+                    Map<String, String> map = gson.fromJson(MyMessage, Map.class);
+
+                    for (Map.Entry e : map.entrySet()) {
+                        if(e.getKey().equals("message")){
+                            hmap.put("message", e.getValue().toString());
+                        }
+                    }
+                }
+                return hmap;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+                hmap.put("result", false);
+                hmap.put("message", e.getMessage());
+                hmap.put("extid", "0");
+
+                return hmap;
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+
+            MySnackbar.ShowMySnackbar(CreateOrder, "Отправка заказа прервана пользователем!", R.color.SnackbarBgRed);
         }
     }
 }

@@ -1,5 +1,7 @@
 package ru.serv_techno.sandwichclub03;
 
+import android.util.Log;
+
 import com.orm.SugarRecord;
 
 import java.util.List;
@@ -30,7 +32,7 @@ public class Product extends SugarRecord {
     public Product(String name, String description, float price, String weight,
                    int catalog1, int catalog2, int mainview, String text, int like, String code,
                    int active, String imagelink, String bigImageLink, String weightText) {
-       // this.ext_id = ext_id;
+        // this.ext_id = ext_id;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -61,5 +63,21 @@ public class Product extends SugarRecord {
 
     public static Product getProductById(int productid) {
         return Product.findById(Product.class, productid);
+    }
+
+    public static void setUnactiveProducts(List<Product> productList) {
+
+        if (productList.size() > 0) {
+            for (int i = 0; i < productList.size(); i++) {
+                Product product = productList.get(i);
+                product.active = 0;
+                try {
+                    product.save();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e(String.valueOf(R.string.app_name), "Ошибка при записи товара: " + e.getMessage());
+                }
+            }
+        }
     }
 }

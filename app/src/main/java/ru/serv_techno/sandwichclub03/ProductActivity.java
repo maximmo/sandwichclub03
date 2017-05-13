@@ -62,15 +62,9 @@ public class ProductActivity extends AppCompatActivity {
 
                 boolean result = Basket.AddProduct(product);
                 if(result){
-                    Snackbar snackbar = Snackbar.make(view, "Добавлен товар: " + product.name, Snackbar.LENGTH_SHORT);
-                    View snackbarView = snackbar.getView();
-                    snackbarView.setBackgroundResource(R.color.SnackbarBg);
-                    snackbar.show();
+                    MySnackbar.ShowMySnackbar(view, "Добавлен товар: " + product.name, R.color.SnackbarBg);
                 }else{
-                    Snackbar snackbar = Snackbar.make(view, "Не удалось добавить позицию: " + product.name, Snackbar.LENGTH_SHORT);
-                    View snackbarView = snackbar.getView();
-                    snackbarView.setBackgroundResource(R.color.SnackbarBgRed);
-                    snackbar.show();
+                    MySnackbar.ShowMySnackbar(view, "Не удалось добавить позицию: " + product.name, R.color.SnackbarBgRed);
                 }
 
             }

@@ -118,8 +118,6 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
 
-
-
         //запустим MainActivity
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -134,34 +132,12 @@ public class SplashActivity extends AppCompatActivity {
 
     private void setUnactiveCatalogs(){
         List<Catalog> allCatalogs = Catalog.listAll(Catalog.class);
-        if(allCatalogs.size()>0){
-            for(int i=0;i<allCatalogs.size();i++){
-               Catalog catalog = allCatalogs.get(i);
-               catalog.active = 0;
-                try{
-                    catalog.save();
-                }catch (Exception e){
-                    e.printStackTrace();
-                    Log.e(LOG_TAG, "Ошибка при записи группы: " + e.getMessage());
-                }
-            }
-        }
+        Catalog.setUnactiveCatalogs(allCatalogs);
     }
 
     private void setUnactiveProducts(){
         List<Product> allProducts = Product.listAll(Product.class);
-        if(allProducts.size()>0){
-            for(int i=0;i<allProducts.size();i++){
-                Product product = allProducts.get(i);
-                product.active = 0;
-                try{
-                    product.save();
-                }catch (Exception e){
-                    e.printStackTrace();
-                    Log.e(LOG_TAG, "Ошибка при записи товара: " + e.getMessage());
-                }
-            }
-        }
+        Product.setUnactiveProducts(allProducts);
     }
 
 }

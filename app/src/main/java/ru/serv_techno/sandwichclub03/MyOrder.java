@@ -13,27 +13,25 @@ import okhttp3.RequestBody;
  */
 public class MyOrder extends SugarRecord {
 
-    int id;
+    int extid;
     float price;
-    long createdat;
+    String paymenttype;
     int numberperson;
-    int delivery;
-    String clientname;
-    String clientphone;
-    String clientaddress;
+    String delivery;
+    UserProfile userProfile;
+    List<OrderProducts> orderProducts;
 
     public MyOrder() {
     }
 
-    public MyOrder(int id, float price, long createdat, int numberperson, int delivery, String clientname, String clientphone, String clientaddress) {
-        this.id = id;
+    public MyOrder(int extid, float price, String paymenttype, int numberperson, String delivery, UserProfile userProfile, List<OrderProducts> orderProducts) {
+        this.extid = extid;
         this.price = price;
-        this.createdat = createdat;
+        this.paymenttype = paymenttype;
         this.numberperson = numberperson;
         this.delivery = delivery;
-        this.clientname = clientname;
-        this.clientphone = clientphone;
-        this.clientaddress = clientaddress;
+        this.userProfile = userProfile;
+        this.orderProducts = orderProducts;
     }
 
     public LinkedHashMap MakeRequestBodyOrder() {
@@ -41,29 +39,28 @@ public class MyOrder extends SugarRecord {
         RequestBody rb;
         LinkedHashMap<String, RequestBody> mp = new LinkedHashMap<>();
 
-        rb = RequestBody.create(MediaType.parse("text/plain"), String.valueOf((int) OrderProducts.getBoxSumm()));
+        rb = RequestBody.create(MediaType.parse("text/plain"), String.valueOf((int) this.price));
         mp.put("price", rb);
 
-        rb = RequestBody.create(MediaType.parse("text/plain"), "1");
+        rb = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(this.numberperson));
         mp.put("number_person", rb);
 
-        rb = RequestBody.create(MediaType.parse("text/plain"), "cash");
+        rb = RequestBody.create(MediaType.parse("text/plain"), this.paymenttype);
         mp.put("payment_type", rb);
 
-        rb = RequestBody.create(MediaType.parse("text/plain"), "yes");
+        rb = RequestBody.create(MediaType.parse("text/plain"), this.delivery);
         mp.put("delivery", rb);
 
-        rb = RequestBody.create(MediaType.parse("text/plain"), this.clientname);
+        rb = RequestBody.create(MediaType.parse("text/plain"), this.userProfile.name);
         mp.put("client[name]", rb);
 
-        rb = RequestBody.create(MediaType.parse("text/plain"), this.clientphone);
+        rb = RequestBody.create(MediaType.parse("text/plain"), this.userProfile.phone);
         mp.put("client[phone]", rb);
 
-        rb = RequestBody.create(MediaType.parse("text/plain"), this.clientaddress);
+        rb = RequestBody.create(MediaType.parse("text/plain"), this.userProfile.address);
         mp.put("client[address]", rb);
 
-        List<OrderProducts> orderProducts = OrderProducts.getOrderProductsNew();
-        for (int i = 0; i < orderProducts.size(); i++) {
+        for (int i = 0; i < this.orderProducts.size(); i++) {
             OrderProducts p = orderProducts.get(i);
 
             Product product = Product.getProductById(p.productid);
@@ -82,5 +79,12 @@ public class MyOrder extends SugarRecord {
 
     }
 
+    public void setExtid(int _extid){
+        this.extid = _extid;
+        this.save();
+    }
 
+    public static List<MyOrder> getNewMyOrders() {
+        return MyOrder.find(MyOrder.class, "extid = ?", "0");
+    }
 }
