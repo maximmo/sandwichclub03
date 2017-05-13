@@ -272,7 +272,7 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
         Notification.Builder builder = new Notification.Builder(this);
         // оставим только самое необходимое
         builder.setContentIntent(contentIntent)
-                .setSmallIcon(R.drawable.logo)
+                .setSmallIcon(R.drawable.ic_my_notification)
                 .setContentTitle("Sandwich Club 03")
                 .setContentText(textMessage); // Текст уведомления
 
