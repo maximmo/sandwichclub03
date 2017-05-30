@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -159,14 +159,27 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.nav_call) {
-            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:83012406806"));
-            startActivity(intent);
-        }else if (id == R.id.nav_map) {
-            return true;
-        }else if (id == R.id.nav_profile) {
-            Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
-            startActivity(intent);
+        switch (id){
+            case R.id.nav_call:
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:83012406806"));
+                startActivity(intent);
+                break;
+            case R.id.nav_map:
+                break;
+                //return true;
+            case R.id.nav_profile:
+                Intent intentProfile = new Intent(MainActivity.this, UserProfileActivity.class);
+                startActivity(intentProfile);
+                break;
+            case R.id.nav_basket:
+                Intent intentBasket = new Intent(MainActivity.this, BasketActivity.class);
+                startActivity(intentBasket);
+                break;
+            case R.id.nav_vk:
+                Uri address = Uri.parse("https://vk.com/snoopys_club");
+                Intent openlinkIntent = new Intent(Intent.ACTION_VIEW, address);
+                startActivity(openlinkIntent);
+                break;
         }
 
         return super.onOptionsItemSelected(item);

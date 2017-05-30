@@ -35,7 +35,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/burger"
+                app:srcCompat="@drawable/empty_image"
                 android:layout_marginLeft="8dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintLeft_toLeftOf="parent"

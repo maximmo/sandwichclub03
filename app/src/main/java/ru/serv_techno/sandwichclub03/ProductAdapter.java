@@ -68,8 +68,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         if (prod.imageLink!= null) {
             Picasso.with(ctx)
                     .load(prod.bigImageLink)
-                    .placeholder(R.drawable.burger)
-                    .error(R.drawable.burger)
+                    .placeholder(R.drawable.empty_image)
+                    .error(R.drawable.empty_image)
                     .into(holder.imageView);
         }
 

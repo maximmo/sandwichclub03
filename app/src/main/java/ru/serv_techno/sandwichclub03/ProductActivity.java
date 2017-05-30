@@ -43,8 +43,8 @@ public class ProductActivity extends AppCompatActivity {
         if (product.imageLink!= null) {
             Picasso.with(this)
                     .load(product.bigImageLink)
-                    .placeholder(R.drawable.burger)
-                    .error(R.drawable.burger)
+                    .placeholder(R.drawable.empty_image)
+                    .error(R.drawable.empty_image)
                     .into(productActivityImage);
         }
 

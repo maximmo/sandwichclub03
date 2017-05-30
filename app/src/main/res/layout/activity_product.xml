@@ -30,7 +30,7 @@
                 android:fitsSystemWindows="true"
                 android:paddingTop="20dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/burger" />
+                android:src="@drawable/empty_image" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbarProduct"

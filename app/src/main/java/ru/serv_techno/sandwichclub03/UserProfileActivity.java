@@ -17,7 +17,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
     private UserProfile userProfile;
 
     EditText ProfileNameEditText;
-    EditText ProfilePhoneInputLayout;
+    EditText ProfilePhoneEditText;
     EditText ProfileAddressEditText;
     Button ProfileBtnSave;
 
@@ -31,7 +31,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         getSupportActionBar().setHomeButtonEnabled(true);
 
         ProfileNameEditText = (EditText)findViewById(R.id.ProfileNameEditText);
-        ProfilePhoneInputLayout = (EditText)findViewById(R.id.ProfilePhoneInputLayout);
+        ProfilePhoneEditText = (EditText)findViewById(R.id.ProfilePhoneEditText);
         ProfileAddressEditText = (EditText)findViewById(R.id.ProfileAddressEditText);
         ProfileBtnSave = (Button)findViewById(R.id.ProfileBtnSave);
         ProfileBtnSave.setOnClickListener(this);
@@ -45,7 +45,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             userProfile = userProfiles.get(0);
             if(userProfile!=null){
                 ProfileNameEditText.setText(userProfile.name);
-                ProfilePhoneInputLayout.setText(userProfile.phone);
+                ProfilePhoneEditText.setText(userProfile.phone);
                 ProfileAddressEditText.setText(userProfile.address);
             }
         }
@@ -67,7 +67,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         switch (v.getId()){
             case R.id.ProfileBtnSave:
                 String nameProfile = ProfileNameEditText.getText().toString();
-                String phoneProfile = ProfilePhoneInputLayout.getText().toString();
+                String phoneProfile = ProfilePhoneEditText.getText().toString();
                 String addressProfile = ProfileAddressEditText.getText().toString();
 
                 if(nameProfile.equals("")){

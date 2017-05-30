@@ -104,5 +104,5 @@
     <string name="OfferText">Я подтверждаю своё согласие на хранение и обработку моих персональных данных</string>
     <string name="dialog_create_order_title">Подтверждение создания заказа</string>
     <string name="dialog_create_order_message">Создать заказ?</string>
-
+    <string name="API_google_maps">AIzaSyAKQzqRBCX8yPQIPNA9CCzDJAfi-O91lhk</string>
 </resources>

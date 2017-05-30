@@ -75,8 +75,8 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
             if (product.imageLink != null) {
                 Picasso.with(ctx)
                         .load(product.bigImageLink)
-                        .placeholder(R.drawable.burger)
-                        .error(R.drawable.burger)
+                        .placeholder(R.drawable.empty_image)
+                        .error(R.drawable.empty_image)
                         .into(holder.cwBasketImg);
             }
 

@@ -83,7 +83,6 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
         //заполним профиль
         BasketProfile = (CardView) findViewById(R.id.BasketProfile);
         BasketProfileName = (TextView)findViewById(R.id.BasketProfileName);
-        ReloadProfileData();
         BasketProfile.setOnClickListener(this);
 
         //проставим switchPay и switchDelivery
@@ -115,6 +114,7 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         RefreshBasketSumm();
+        ReloadProfileData();
 
         if(basketList.size()==0){
             MySnackbar.ShowMySnackbar(rwBasket, "Добавьте что-нибудь в корзину=)", R.color.SnackbarBgRed);
@@ -192,6 +192,7 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
         }else{
             BasketProfileName.setText(userProfile.name);
         }
+        SetCreateOrderAvailability();
     }
 
     public void RefreshBasketSumm(){
@@ -216,16 +217,16 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
         //здесь создадим заказ
         String paymentType = "cash";
         if (switchPay.isChecked() == true) {
-            paymentType = "Наличными";
+            paymentType = "cash";
         } else {
-            paymentType = "Картой";
+            paymentType = "card";
         }
 
         String delivery = "yes";
         if(switchDelivery.isChecked()==true){
-            delivery = "Доставка";
+            delivery = "yes";
         }else{
-            delivery = "Самовывоз";
+            delivery = "no";
         }
 
         //здесь нужно поместить данные из корзины в OrderProducts
@@ -243,7 +244,7 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
 
         List<OrderProducts> orderProducts = OrderProducts.getOrderProductsNew();
 
-        MyOrder myOrder = new MyOrder(0, Basket.getBasketSumm(), paymentType, 1, delivery, userProfile, orderProducts);
+        MyOrder myOrder = new MyOrder(0, Basket.getBasketSumm(), paymentType, 1, delivery, userProfile, orderProducts, 1);
         try{
             myOrder.save();
         }catch (Exception e){
