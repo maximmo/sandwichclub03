@@ -32,12 +32,12 @@
                 android:id="@+id/cwProductImg"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="0dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/empty_image"
-                android:layout_marginRight="8dp"
+                android:layout_marginRight="0dp"
                 app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="0dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -61,7 +61,7 @@
                 android:id="@+id/cwProductWeight"
                 android:layout_width="0dp"
                 android:layout_height="20dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="29dp"
                 android:layout_marginLeft="8dp"
                 android:text="TextView"
                 android:textColor="@color/colorPrimary"
@@ -73,11 +73,11 @@
 
             <Button
                 android:id="@+id/cwAddBasket"
-                android:layout_width="95dp"
+                android:layout_width="100dp"
                 android:layout_height="45dp"
                 android:layout_marginBottom="4dp"
                 android:layout_marginRight="4dp"
-                android:drawableLeft="@drawable/basket_btn"
+                android:drawableLeft="@drawable/ic_cart"
                 android:text="120 р."
                 android:textAllCaps="false"
                 android:textColor="@color/colorEndSpinner"

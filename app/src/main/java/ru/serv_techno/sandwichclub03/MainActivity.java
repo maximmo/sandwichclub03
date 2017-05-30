@@ -165,8 +165,9 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
                 break;
             case R.id.nav_map:
+                Intent intentMap = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(intentMap);
                 break;
-                //return true;
             case R.id.nav_profile:
                 Intent intentProfile = new Intent(MainActivity.this, UserProfileActivity.class);
                 startActivity(intentProfile);
@@ -176,9 +177,18 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intentBasket);
                 break;
             case R.id.nav_vk:
-                Uri address = Uri.parse("https://vk.com/snoopys_club");
-                Intent openlinkIntent = new Intent(Intent.ACTION_VIEW, address);
+                Uri addressVK = Uri.parse("https://vk.com/snoopys_club");
+                Intent openlinkIntent = new Intent(Intent.ACTION_VIEW, addressVK);
                 startActivity(openlinkIntent);
+                break;
+            case R.id.nav_dev:
+                Uri addressDev = Uri.parse("http://serv-techno.ru/");
+                Intent devIntent = new Intent(Intent.ACTION_VIEW, addressDev);
+                startActivity(devIntent);
+                break;
+            case R.id.nav_orders:
+                Intent ordersIntent = new Intent(MainActivity.this, OrdersActivity.class);
+                startActivity(ordersIntent);
                 break;
         }
 
@@ -189,15 +199,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_map) {
-
-        } else if (id == R.id.nav_call) {
-
-        } else if (id == R.id.nav_profile) {
-
-        }
+//        int id = item.getItemId();
+//
+//        if (id == R.id.nav_map) {
+//
+//        } else if (id == R.id.nav_call) {
+//
+//        } else if (id == R.id.nav_profile) {
+//
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

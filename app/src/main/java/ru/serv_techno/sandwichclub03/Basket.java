@@ -30,29 +30,29 @@ public class Basket extends SugarRecord {
 
     }
 
-    public static boolean AddProduct(Product product) {
+    public static boolean AddProduct(Product product, int countProducts) {
 
         String itemId = product.getId().toString();
 
         List<Basket> basketProductAll = Basket.listAll(Basket.class);
         if (basketProductAll.size() == 0) {
-            return AddNewItem(product, itemId);
+            return AddNewItem(product, itemId, countProducts);
         } else {
             List<Basket> basketProduct = Basket.find(Basket.class, "itembasket=?", itemId);
             if (basketProduct.size() == 0) {
-                return AddNewItem(product, itemId);
+                return AddNewItem(product, itemId, countProducts);
             } else {
                 Basket basket = basketProduct.get(0);
                 if (basket != null) {
-                    return ItemPlus(product, basket);
+                    return ItemPlus(product, basket, countProducts);
                 }
             }
         }
         return false;
     }
 
-    private static boolean AddNewItem(Product product, String itemId) {
-        Basket basket = new Basket(Integer.parseInt(itemId), 1, product.price, product.price);
+    private static boolean AddNewItem(Product product, String itemId, int countProducts) {
+        Basket basket = new Basket(Integer.parseInt(itemId), countProducts, product.price, product.price*countProducts);
         try {
             basket.save();
         } catch (Exception e) {
@@ -64,8 +64,8 @@ public class Basket extends SugarRecord {
 
     }
 
-    private static boolean ItemPlus(Product product, Basket basket) {
-        basket.countProducts++;
+    private static boolean ItemPlus(Product product, Basket basket, int countProducts) {
+        basket.countProducts = basket.countProducts + countProducts;
         RefreshItemSumm(basket);
         try {
             basket.save();

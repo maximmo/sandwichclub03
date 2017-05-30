@@ -129,10 +129,17 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
                 builder.setTitle(R.string.dialog_create_order_title);
                 builder.setMessage(R.string.dialog_create_order_message);
                 builder.setCancelable(true);
+                builder.setIcon(R.mipmap.ic_launcher);
                 builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() { // Кнопка ОК
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         CreateOrder();
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel_text, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        return;
                     }
                 });
                 AlertDialog dialog = builder.create();

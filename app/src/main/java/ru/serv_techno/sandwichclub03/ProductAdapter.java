@@ -78,15 +78,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.addButton.setTag(String.valueOf(prod.getId()));
         holder.addButton.setOnClickListener(btnItemPress);
 
-        if(position >lastPosition) {
-            Animation animation = AnimationUtils.loadAnimation(ctx, R.anim.product_rw_anim);
-            holder.itemView.startAnimation(animation);
-            lastPosition = position;
-        }else{
-            Animation animation = AnimationUtils.loadAnimation(ctx, R.anim.product_rw_anim_up);
-            holder.itemView.startAnimation(animation);
-            lastPosition = position;
-        }
+//        if(position >lastPosition) {
+//            Animation animation = AnimationUtils.loadAnimation(ctx, R.anim.product_rw_anim);
+//            holder.itemView.startAnimation(animation);
+//            lastPosition = position;
+//        }else{
+//            Animation animation = AnimationUtils.loadAnimation(ctx, R.anim.product_rw_anim_up);
+//            holder.itemView.startAnimation(animation);
+//            lastPosition = position;
+//        }
 
 
     }
@@ -97,7 +97,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             int productid = Integer.parseInt(v.getTag().toString());
             Product product = Product.getProductById(productid);
             if(product!=null){
-                boolean result = Basket.AddProduct(product);
+                boolean result = Basket.AddProduct(product, 1);
                 if(result){
                     Snackbar snackbar = Snackbar.make(v, "Добавлен товар: " + product.name, Snackbar.LENGTH_SHORT);
                     View snackbarView = snackbar.getView();

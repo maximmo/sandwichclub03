@@ -104,7 +104,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
             if (product != null) {
                 switch (v.getId()) {
                     case R.id.PlusBtn:
-                        boolean result = Basket.AddProduct(product);
+                        boolean result = Basket.AddProduct(product, 1);
                         if (result) {
                             basket.countProducts++;
                             MySnackbar.ShowMySnackbar(v, "Добавлен товар: " + product.name, R.color.SnackbarBg);
