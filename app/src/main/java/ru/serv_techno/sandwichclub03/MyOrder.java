@@ -2,6 +2,7 @@ package ru.serv_techno.sandwichclub03;
 
 import com.orm.SugarRecord;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -14,18 +15,20 @@ import okhttp3.RequestBody;
 public class MyOrder extends SugarRecord {
 
     int extid;
-    float price;
+    public float price;
     String paymenttype;
     int numberperson;
     String delivery;
     int ismobile;
     UserProfile userProfile;
     List<OrderProducts> orderProducts;
+    public String status;
+    public Date dateCreate;
 
     public MyOrder() {
     }
 
-    public MyOrder(int extid, float price, String paymenttype, int numberperson, String delivery, UserProfile userProfile, List<OrderProducts> orderProducts, int ismobile) {
+    public MyOrder(int extid, float price, String paymenttype, int numberperson, String delivery, UserProfile userProfile, List<OrderProducts> orderProducts, int ismobile, String status, Date dateCreate) {
         this.extid = extid;
         this.price = price;
         this.paymenttype = paymenttype;
@@ -34,6 +37,8 @@ public class MyOrder extends SugarRecord {
         this.userProfile = userProfile;
         this.orderProducts = orderProducts;
         this.ismobile = ismobile;
+        this.status = status;
+        this.dateCreate = dateCreate;
     }
 
     public LinkedHashMap MakeRequestBodyOrder() {

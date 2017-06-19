@@ -31,6 +31,7 @@ import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -251,7 +252,7 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
 
         List<OrderProducts> orderProducts = OrderProducts.getOrderProductsNew();
 
-        MyOrder myOrder = new MyOrder(0, Basket.getBasketSumm(), paymentType, 1, delivery, userProfile, orderProducts, 1);
+        MyOrder myOrder = new MyOrder(0, Basket.getBasketSumm(), paymentType, 1, delivery, userProfile, orderProducts, 1, "new", new Date());
         try{
             myOrder.save();
         }catch (Exception e){

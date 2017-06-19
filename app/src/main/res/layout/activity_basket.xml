@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
     android:fadeScrollbars="false"
     android:fillViewport="true"
@@ -14,7 +14,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context="ru.serv_techno.sandwichclub03.BasketActivity">
 
 
@@ -141,7 +141,6 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/BasketLinearLayout2" />
 
-
         <TextView
             android:id="@+id/OrderInfo"
             android:layout_width="0dp"
@@ -149,6 +148,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:padding="8dp"
             android:layout_weight="1"
             android:text="@string/OrderInfoText"
@@ -158,21 +158,20 @@
             app:layout_constraintTop_toBottomOf="@+id/BasketOffer" >
 
         </TextView>
+
+
         <Button
             android:id="@+id/CreateOrder"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:text="@string/CreateOrderText"
             android:textColor="@color/cardview_light_background"
             android:background="@color/productBtnBgColor"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/OrderInfo"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
+            />
     </android.support.constraint.ConstraintLayout>
+
 </ScrollView>

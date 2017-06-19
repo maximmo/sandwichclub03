@@ -20,7 +20,6 @@ public class ProductActivity extends AppCompatActivity {
 
     public Product product;
     int countProduct = 1;
-    boolean resultAdd = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
