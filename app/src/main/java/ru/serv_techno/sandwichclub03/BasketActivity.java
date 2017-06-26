@@ -21,7 +21,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -273,7 +272,7 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
 
         int NOTIFY_ID = 101;
 
-        Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent notificationIntent = new Intent(getApplicationContext(), OrdersActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this,
                 0, notificationIntent,
                 PendingIntent.FLAG_CANCEL_CURRENT);

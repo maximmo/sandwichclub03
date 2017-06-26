@@ -4,13 +4,15 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import ru.serv_techno.sandwichclub03.fragments.OrderFragment;
 import ru.serv_techno.sandwichclub03.fragments.OrderListFragment;
 
-public class OrdersActivity extends FragmentActivity {
+public class OrdersActivity extends AppCompatActivity  {
 
     private OrderListFragment orderListFragment;
     private OrderFragment orderFragment;
@@ -23,6 +25,13 @@ public class OrdersActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
 
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("История заказов");
+            actionBar.setHomeButtonEnabled(true);
+        }
+
         orderListFragment = new OrderListFragment();
         orderFragment = new OrderFragment();
         fragmentManager = getSupportFragmentManager();
@@ -31,5 +40,16 @@ public class OrdersActivity extends FragmentActivity {
         fragmentTransaction.add(R.id.ordersContainer, orderListFragment);
         fragmentTransaction.commit();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

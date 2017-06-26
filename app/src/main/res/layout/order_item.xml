@@ -14,93 +14,132 @@
         android:layout_marginBottom="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        app:cardBackgroundColor="@color/OrderInfoBg"
-        app:cardCornerRadius="4dp">
+        app:cardCornerRadius="2dp">
 
         <LinearLayout
+            android:id="@+id/OrderItemMain"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/OrderItemStatusLineyarLayout"
-                android:layout_width="match_parent"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_weight="0.3"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/OrderItemStatusTextView"
+                <ImageView
+                    android:id="@+id/OrderImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Статус заказа" />
+                    android:src="@android:drawable/presence_away">
 
-                <TextView
-                    android:id="@+id/OrderItemStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Исполнен"
-                    android:textAlignment="textEnd"
-                    android:textStyle="bold" />
+                </ImageView>
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/OrderItemDateLineyarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_weight="0.7"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/OrderItemDateTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Дата:" />
 
-                <TextView
-                    android:id="@+id/OrderItemDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="19 июня 2017 16:45:53"
-                    android:textAlignment="textEnd" />
-            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/OrderItemSummLineyarLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:orientation="horizontal">
+                    <LinearLayout
+                        android:id="@+id/OrderItemIdLineyarLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_marginTop="4dp"
+                        android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/OrderItemSummTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Сумма заказа:" />
+                        <TextView
+                            android:id="@+id/OrderItemIdTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Номер заказа"
+                            android:textColor="@color/colorPrimary" />
 
-                <TextView
-                    android:id="@+id/OrderItemSumm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="780 руб."
-                    android:textAlignment="textEnd"
-                    android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/OrderItemId"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="45"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/colorPrimary" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/OrderItemSummLineyarLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_marginTop="4dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/OrderItemSummTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Сумма"
+                            android:textColor="@color/colorPrimary" />
+
+                        <TextView
+                            android:id="@+id/OrderItemSumm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="780 руб."
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/colorPrimary" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/OrderItemStatusLineyarLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/OrderItemStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Исполнен"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/OrderItemDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="19 июня 2017 16:45:53"
+                            android:textAlignment="textEnd"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
 
     </android.support.v7.widget.CardView>
 </LinearLayout>

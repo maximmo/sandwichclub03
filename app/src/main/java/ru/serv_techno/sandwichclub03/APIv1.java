@@ -27,4 +27,6 @@ public interface APIv1 {
     @GET("/api/v1/product/index")
     Call<List<Product>> getProducts(@Query("per-page") int count);
 
+    @GET("/api/v1/order/index")
+    Call<ResponseBody> getOrder(@Query("filter") String filter);
 }

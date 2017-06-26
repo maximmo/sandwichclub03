@@ -40,6 +40,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
         CardView BasketItemCardView;
         ImageView cwBasketImg;
         TextView cwBasketProductName;
+        TextView cwBasketProductPrice;
         Button PlusBtn;
         Button BasketCountItem;
         Button MinusBtn;
@@ -49,6 +50,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
 
             BasketItemCardView = (CardView) itemView.findViewById(R.id.BasketItemCardView);
             cwBasketProductName = (TextView) itemView.findViewById(R.id.cwBasketProductName);
+            cwBasketProductPrice = (TextView) itemView.findViewById(R.id.cwBasketProductPrice);
             PlusBtn = (Button) itemView.findViewById(R.id.PlusBtn);
             BasketCountItem = (Button) itemView.findViewById(R.id.BasketCountItem);
             MinusBtn = (Button) itemView.findViewById(R.id.MinusBtn);
@@ -71,12 +73,13 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
 
         if (product != null) {
             holder.cwBasketProductName.setText(product.name);
+            holder.cwBasketProductPrice.setText(String.valueOf(product.price) + " \u20BD");
 
             if (product.imageLink != null) {
                 Picasso.with(ctx)
                         .load(product.bigImageLink)
-                        .placeholder(R.drawable.empty_image)
-                        .error(R.drawable.empty_image)
+                        .placeholder(R.drawable.product_default_bg)
+                        .error(R.drawable.product_default_bg)
                         .into(holder.cwBasketImg);
             }
 

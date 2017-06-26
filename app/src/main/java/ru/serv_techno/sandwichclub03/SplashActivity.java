@@ -66,7 +66,6 @@ public class SplashActivity extends AppCompatActivity {
                         }
                     }
                 }else{
-                    Toast.makeText(SplashActivity.this, R.string.InternetErrorMessage, Toast.LENGTH_SHORT).show();
                     Log.e(LOG_TAG, String.valueOf(R.string.InternetErrorMessage));
                     finish();
                 }

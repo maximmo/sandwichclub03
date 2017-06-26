@@ -1,20 +1,34 @@
 package ru.serv_techno.sandwichclub03;
 
+import android.util.Log;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.orm.SugarRecord;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Maxim on 18.08.2016.
  */
 public class MyOrder extends SugarRecord {
 
-    int extid;
+    public int extid;
     public float price;
     String paymenttype;
     int numberperson;
@@ -97,4 +111,64 @@ public class MyOrder extends SugarRecord {
     public static List<MyOrder> getNewMyOrders() {
         return MyOrder.find(MyOrder.class, "extid = ?", "0");
     }
+
+    public static List<MyOrder> getOrdersByStatus(String status) {
+        return MyOrder.find(MyOrder.class, "status = ?", status);
+    }
+
+//    public static boolean UpdateNewOrdersStatus(){
+//
+//        final String LOG_TAG = "snoopy_st_log";
+//        final Gson gson = new GsonBuilder().create();
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("http://admin.serv-techno.ru/")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//
+//        APIv1 myApi = retrofit.create(APIv1.class);
+//
+//        List<MyOrder> orderList = MyOrder.getNewStatusOrders();
+//        for(final MyOrder order : orderList){
+//            String filter = "" + "{'id':" + String.valueOf(order.extid) + "}";
+//            myApi.getOrder(filter).enqueue(new Callback<ResponseBody>() {
+//                @Override
+//                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                    if(response!=null){
+//                        ResponseBody responseBody = response.body();
+//
+//                        String MyMessage = null;
+//                        String status;
+//                        try {
+//                            MyMessage = responseBody.string();
+//                            JSONArray MyArray = gson.fromJson(MyMessage, JSONArray.class);
+//
+//
+//
+//                            //Map<String, String> orderMap = gson.fromJson(MyMessage, Map.class);
+//
+////                            for (Map.Entry e : orderMap.entrySet()) {
+////                                if(e.getKey().equals("status")){
+////                                    status = e.getValue().toString();
+////                                    order.status = status;
+////                                    order.save();
+////                                }
+////                            }
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                            Log.e(LOG_TAG, "Ошибка при обновлении статуса заказа: " + e.getMessage());
+//                            //res = false;
+//                        }
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                    t.printStackTrace();
+//                    Log.e(LOG_TAG, String.valueOf(R.string.InternetErrorMessage));
+//                }
+//            });
+//        }
+//        return true;
+//    }
+
 }
