@@ -11,9 +11,9 @@ import java.util.List;
  */
 public class Product extends SugarRecord {
     //int ext_id;
-    String name;
+    public String name;
     String description;
-    float price;
+    public float price;
     String weight;
     int catalog_1;
     int catalog_2;
@@ -22,7 +22,7 @@ public class Product extends SugarRecord {
     int like;
     String code;
     int active;
-    String imageLink;
+    public String imageLink;
     String bigImageLink;
     String weightText;
 

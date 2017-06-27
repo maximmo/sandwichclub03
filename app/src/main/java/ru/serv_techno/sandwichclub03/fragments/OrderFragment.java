@@ -21,6 +21,7 @@ import java.util.List;
 import ru.serv_techno.sandwichclub03.MyOrder;
 import ru.serv_techno.sandwichclub03.OrderProducts;
 import ru.serv_techno.sandwichclub03.R;
+import ru.serv_techno.sandwichclub03.adapters.OrderProductsAdapter;
 
 /**
  * Created by Maxim on 02.06.2017.
@@ -57,27 +58,17 @@ public class OrderFragment extends Fragment {
             InitCardView();
         }
 
-
         return rootview;
     }
-
-//    @Override
-//    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//
-//        if(myOrder!=null){
-//            List<OrderProducts> orderProductsList = GetOrderProductList();
-//            //InitAdapter(orderProductsList);
-//            InitCardView();
-//        }
-//    }
 
     private List<OrderProducts> GetOrderProductList(){
         return OrderProducts.getOrderProductsByExtid(myOrder.extid);
     }
 
     private void InitAdapter(List<OrderProducts> orderProductsList){
-
+        OrderProductsAdapter orderProductsAdapter = new OrderProductsAdapter(getActivity(), orderProductsList);
+        OrderProductList.setAdapter(orderProductsAdapter);
+        orderProductsAdapter.notifyDataSetChanged();
     }
 
     private void InitCardView(){
@@ -88,7 +79,6 @@ public class OrderFragment extends Fragment {
         String orderStatus = myOrder.status;
         switch (orderStatus){
             case "new":
-                //OrderItemCard.setCardBackgroundColor(ContextCompat.getColor(OrderItemCard.getContext(), R.color.NewOrderBg));
                 orderStatus = "Новый";
                 Picasso.with(getActivity())
                         .load(android.R.drawable.presence_away)
@@ -96,7 +86,6 @@ public class OrderFragment extends Fragment {
                         .into(OrderImage);
                 break;
             case "canceled":
-                //holder.OrderItemCard.setCardBackgroundColor(ContextCompat.getColor(holder.OrderItemCard.getContext(), R.color.colorEndSpinner));
                 orderStatus = "Отменен";
                 Picasso.with(getActivity())
                         .load(android.R.drawable.presence_busy)
@@ -104,7 +93,6 @@ public class OrderFragment extends Fragment {
                         .into(OrderImage);
                 break;
             case "confirmed":
-                //holder.OrderItemCard.setCardBackgroundColor(ContextCompat.getColor(holder.OrderItemCard.getContext(), R.color.colorEndSpinner));
                 orderStatus = "Подтвержден";
                 Picasso.with(getActivity())
                         .load(android.R.drawable.presence_online)

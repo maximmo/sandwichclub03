@@ -9,8 +9,8 @@ import java.util.List;
  */
 public class OrderProducts extends SugarRecord {
     int extid;
-    int productid;
-    int amount;
+    public int productid;
+    public int amount;
 
     public OrderProducts() {
     }
