@@ -3,4 +3,30 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/OrderContainer"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/OrderProductList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/order_item"/>
+
+        <Button
+            android:id="@+id/RepeatOrder"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/cardview_light_background"
+            android:background="@color/productBtnBgColor"
+            android:text="@string/RepeatOrderText"/>
+    </LinearLayout>
+
+
 </ScrollView>

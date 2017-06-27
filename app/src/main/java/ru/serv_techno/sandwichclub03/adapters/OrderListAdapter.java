@@ -87,6 +87,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
                         .into(holder.OrderImage);
                 break;
             case "canceled":
+                holder.OrderItemCard.setCardBackgroundColor(ContextCompat.getColor(holder.OrderItemCard.getContext(), R.color.colorEndSpinner));
                 orderStatus = "Отменен";
                 Picasso.with(ctx)
                         .load(android.R.drawable.presence_busy)
@@ -94,6 +95,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
                         .into(holder.OrderImage);
                 break;
             case "confirmed":
+                holder.OrderItemCard.setCardBackgroundColor(ContextCompat.getColor(holder.OrderItemCard.getContext(), R.color.colorEndSpinner));
                 orderStatus = "Подтвержден";
                 Picasso.with(ctx)
                         .load(android.R.drawable.presence_online)

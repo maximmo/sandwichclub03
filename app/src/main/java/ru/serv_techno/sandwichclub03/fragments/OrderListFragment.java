@@ -1,7 +1,9 @@
 package ru.serv_techno.sandwichclub03.fragments;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -46,6 +48,11 @@ public class OrderListFragment extends Fragment implements SwipeRefreshLayout.On
 
     SwipeRefreshLayout swipe_container;
     RecyclerView RecyclerViewOrderList;
+    OnOrderSelectedListener mCallback;
+
+    public interface OnOrderSelectedListener{
+        void onOrderSelected(MyOrder myOrder);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,6 +72,12 @@ public class OrderListFragment extends Fragment implements SwipeRefreshLayout.On
         InitAdapter(orderList);
 
         return rootview;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //onRefresh();
     }
 
     public List<MyOrder> GetOrderList(){
@@ -87,8 +100,11 @@ public class OrderListFragment extends Fragment implements SwipeRefreshLayout.On
         RecyclerViewOrderList.addOnItemTouchListener(new RecyclerClickListener(getActivity()) {
             @Override
             public void onItemClick(RecyclerView recyclerView, View itemView, int position) {
+                //здесь вернем выбранный заказ в активити
+                //далее активити проинициализирует фрагмент с деталями заказа
+                //Toast.makeText(getContext(), "Выбран заказ " + order.getId().toString(), Toast.LENGTH_SHORT).show();
                 MyOrder order = orderListAdapter.getItem(position);
-                Toast.makeText(getContext(), "Выбран заказ " + order.getId().toString(), Toast.LENGTH_SHORT).show();
+                mCallback.onOrderSelected(order);
             }
 
             @Override
@@ -99,7 +115,20 @@ public class OrderListFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try{
+            mCallback = (OnOrderSelectedListener) context;
+        }catch (ClassCastException e){
+            throw new ClassCastException(context.toString()
+                    + " must implement OnOrderSelectedListener");
+        }
+    }
+
+    @Override
     public void onRefresh(){
+        swipe_container.setRefreshing(true);
         UpdateNewOrdersStatus updateNewOrdersStatus = new UpdateNewOrdersStatus();
         updateNewOrdersStatus.execute(RecyclerViewOrderList.getAdapter());
     }
