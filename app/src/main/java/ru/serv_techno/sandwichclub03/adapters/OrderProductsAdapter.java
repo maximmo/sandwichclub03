@@ -79,7 +79,7 @@ public class OrderProductsAdapter extends RecyclerView.Adapter<OrderProductsAdap
                 int countProducts = orderProduct.amount;
                 holder.cwBasketProductName.setText(product.name);
                 holder.cwBasketProductPrice.setText(String.valueOf(product.price) + " \u20BD");
-                holder.BasketCountItem.setText(String.valueOf(countProducts));
+                holder.BasketCountItem.setText(String.valueOf(countProducts) + " шт");
                 holder.PlusBtn.setVisibility(View.GONE);
                 holder.MinusBtn.setVisibility(View.GONE);
             }

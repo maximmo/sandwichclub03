@@ -108,5 +108,7 @@
     <string name="dialog_create_order_message">Вы уверены?</string>
     <string name="title_activity_maps">Где мы находимся</string>
     <string name="baloon_text">Ваши любимые бургеры тут!</string>
+    <string name="repeat_order_question_title">Повтор заказа</string>
+    <string name="repeat_order_question">Вы хотите повторить заказ?</string>
     <string name="dialog_countProduct_title">Введите количество</string>
 </resources>

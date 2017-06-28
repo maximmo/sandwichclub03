@@ -13,7 +13,7 @@ import java.util.List;
 public class Basket extends SugarRecord {
 
     int itembasket;
-    int countProducts;
+    public int countProducts;
     float price;
     float summ;
 

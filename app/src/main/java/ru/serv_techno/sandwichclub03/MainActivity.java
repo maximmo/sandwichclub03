@@ -62,7 +62,11 @@ public class MainActivity extends AppCompatActivity
         //определим RecyclerView для каталогов и передадим в адаптер групп
         catalogList = new ArrayList<>();
         catalogList = Catalog.getCatalogsMain();
-        final CatalogAdapter catalogAdapter = new CatalogAdapter(this, catalogList);
+        boolean[] selected = new boolean[catalogList.size()];
+        for(int i=0;i<catalogList.size();i++){
+            selected[i]=false;
+        }
+        final CatalogAdapter catalogAdapter = new CatalogAdapter(this, catalogList, selected);
         rvCatalogs = (RecyclerView)findViewById(R.id.rwCatalogs);
         if(rvCatalogs!=null) {
             rvCatalogs.setAdapter(catalogAdapter);
@@ -92,6 +96,16 @@ public class MainActivity extends AppCompatActivity
                         drawer.closeDrawer(navigationView);
 
                     }
+
+                    for(int i=0;i<catalogAdapter.catalogList.size();i++){
+                        if(i==position){
+                            catalogAdapter.selected[i]=true;
+                        }else{
+                            catalogAdapter.selected[i]=false;
+                        }
+                    }
+                    catalogAdapter.notifyDataSetChanged();
+
                 }
             });
         }

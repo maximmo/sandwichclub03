@@ -77,7 +77,6 @@ public class OrderListFragment extends Fragment implements SwipeRefreshLayout.On
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //onRefresh();
     }
 
     public List<MyOrder> GetOrderList(){
@@ -185,7 +184,6 @@ public class OrderListFragment extends Fragment implements SwipeRefreshLayout.On
         protected void onPostExecute(Void aVoid) {
             List<MyOrder> orderList = GetOrderList();
             InitAdapter(orderList);
-            //RecyclerViewOrderList.invalidate();
             swipe_container.setRefreshing(false);
         }
 

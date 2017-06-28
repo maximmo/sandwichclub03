@@ -1,12 +1,11 @@
 package ru.serv_techno.sandwichclub03;
 
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import ru.serv_techno.sandwichclub03.fragments.OrderFragment;
@@ -18,13 +17,36 @@ public class OrdersActivity extends AppCompatActivity  implements OrderListFragm
     private OrderFragment orderFragment;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
+    public ActionBar actionBar;
+
+    public interface OnBackPressedListener {
+        void onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fm = getSupportFragmentManager();
+        OnBackPressedListener backPressedListener = null;
+        for (Fragment fragment: fm.getFragments()) {
+            if (fragment instanceof  OnBackPressedListener) {
+                backPressedListener = (OnBackPressedListener) fragment;
+                break;
+            }
+        }
+
+        if (backPressedListener != null) {
+            backPressedListener.onBackPressed();
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
 
-        ActionBar actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
         if(actionBar!=null){
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("История заказов");
@@ -64,5 +86,8 @@ public class OrdersActivity extends AppCompatActivity  implements OrderListFragm
         fragmentTransaction.replace(R.id.ordersContainer, orderFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        if(actionBar!=null){
+            actionBar.setTitle("Детали заказа");
+        }
     }
 }

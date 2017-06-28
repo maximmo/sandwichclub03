@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import ru.serv_techno.sandwichclub03.MyOrder;
 import ru.serv_techno.sandwichclub03.R;
@@ -74,11 +75,15 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
 
         holder.OrderItemId.setText(String.valueOf(myOrder.extid));
         holder.OrderItemSumm.setText(String.valueOf(myOrder.price) + " \u20BD");
-        holder.OrderItemDate.setText(DateFormat.getDateInstance().format(myOrder.dateCreate));
+
+        String orderDate;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM yyyy H:mm");
+        orderDate = dateFormat.format(myOrder.dateCreate);
+        holder.OrderItemDate.setText(orderDate);
+
         String orderStatus = myOrder.status;
         switch (orderStatus){
             case "new":
-                //int NewOrderColor = R.color.NewOrderBg;
                 holder.OrderItemCard.setCardBackgroundColor(ContextCompat.getColor(holder.OrderItemCard.getContext(), R.color.NewOrderBg));
                 orderStatus = "Новый";
                 Picasso.with(ctx)

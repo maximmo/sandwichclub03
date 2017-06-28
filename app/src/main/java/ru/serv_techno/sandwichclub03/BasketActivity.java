@@ -13,8 +13,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +21,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -70,9 +67,6 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_basket);
 
         rwBasket = (RecyclerView)findViewById(R.id.rwBasket);
-        //определим RecyclerView для товаров, получим товары для главной страницы, проинициализируем адаптер
-        basketList = new ArrayList<>();
-        basketList.clear();
         basketList = Basket.listAll(Basket.class);
         basketAdapter = new BasketAdapter(this, basketList);
         if(rwBasket!=null) {
@@ -223,24 +217,27 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
 
         //здесь создадим заказ
         String paymentType = "cash";
-        if (switchPay.isChecked() == true) {
+        if (switchPay.isChecked()) {
             paymentType = "cash";
         } else {
             paymentType = "card";
         }
 
         String delivery = "yes";
-        if(switchDelivery.isChecked()==true){
+        if(switchDelivery.isChecked()){
             delivery = "yes";
         }else{
             delivery = "no";
         }
 
+        ArrayList<OrderProducts> NewOrderProducts = new ArrayList<>();
+
         //здесь нужно поместить данные из корзины в OrderProducts
         for (Basket basketItem:basketList){
-            OrderProducts orderProduct = new OrderProducts(0, basketItem.itembasket, basketItem.countProducts);
+            OrderProducts orderProduct = new OrderProducts(0, 0, basketItem.itembasket, basketItem.countProducts);
             try{
                 orderProduct.save();
+                NewOrderProducts.add(orderProduct);
             }
             catch (Exception e){
                 e.printStackTrace();
@@ -254,6 +251,9 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
         MyOrder myOrder = new MyOrder(0, Basket.getBasketSumm(), paymentType, 1, delivery, userProfile, orderProducts, 1, "new", new Date());
         try{
             myOrder.save();
+            for(OrderProducts op : NewOrderProducts){
+                op.setOrderid(myOrder.getId().intValue());
+            }
         }catch (Exception e){
             e.printStackTrace();
             MySnackbar.ShowMySnackbar(CreateOrder, "Ошибка при сохранении заказа: " + e.toString(), R.color.SnackbarBgRed);
@@ -347,6 +347,7 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
                     Basket.ClearBasket();
 
                     showMyNotification(message.toString());
+
                     try {
                         setDefaultStatus();
                     } catch (InterruptedException e) {
@@ -357,6 +358,8 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
                     MySnackbar.ShowMySnackbar(CreateOrder, "Ошибка: " + message.toString(), R.color.SnackbarBgRed);
                 }
             }
+            OrderProducts.ClearEmptyProducts();
+            MyOrder.ClearEmptyOrders();
         }
 
         @Override
@@ -429,6 +432,8 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
             super.onCancelled();
 
             MySnackbar.ShowMySnackbar(CreateOrder, "Отправка заказа прервана пользователем!", R.color.SnackbarBgRed);
+            OrderProducts.ClearEmptyProducts();
+            MyOrder.ClearEmptyOrders();
         }
     }
 }

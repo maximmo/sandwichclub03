@@ -1,6 +1,9 @@
 package ru.serv_techno.sandwichclub03;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,26 +19,26 @@ import java.util.List;
 public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogViewHolder>  {
 
     Context ctx;
-    List<Catalog> catalogList;
+    public List<Catalog> catalogList;
+    public boolean[] selected;
 
     //Конструктор адаптера
-    CatalogAdapter(Context ctx, List<Catalog> catalogList){
+    CatalogAdapter(Context ctx, List<Catalog> catalogList, boolean[] selected){
         this.ctx = ctx;
         this.catalogList = catalogList;
+        this.selected = selected;
     }
 
     public static class CatalogViewHolder extends RecyclerView.ViewHolder{
 
         TextView rwItemCatalog;
         TextView rwItemCatalogCount;
-        //View rwItemCatalogShape;
 
         CatalogViewHolder(View itemView){
             super(itemView);
 
             rwItemCatalog = (TextView)itemView.findViewById(R.id.rwItemCatalog);
             rwItemCatalogCount = (TextView)itemView.findViewById(R.id.rwItemCatalogCount);
-            //rwItemCatalogShape = (View)itemView.findViewById(R.id.rwItemCatalogShape);
         }
 
     }
@@ -54,6 +57,10 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogV
         holder.rwItemCatalog.setText(catalog.name);
         holder.rwItemCatalogCount.setText(String.valueOf(catalog.countProducts));
 
+        if(selected[position])
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.SnackbarBgRed));
+        else
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorPrimary));
     }
 
     public Catalog getItem(int position){
