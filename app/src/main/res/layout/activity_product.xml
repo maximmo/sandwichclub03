@@ -30,7 +30,9 @@
                 android:fitsSystemWindows="true"
                 android:paddingTop="20dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/empty_image" />
+                android:src="@drawable/empty_image"
+                android:contentDescription=""
+                tools:ignore="ContentDescription" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbarProduct"
@@ -48,15 +50,16 @@
     <include layout="@layout/content_product"
         android:id="@+id/include"/>
 
+
+
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabProduct"
+        android:id="@+id/fabProductBasket"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@drawable/ic_cart"
-        app:backgroundTint="@color/colorFAB"/>
+        app:backgroundTint="@color/SnackbarBgRed"
+        app:srcCompat="@drawable/ic_cart" />
 
 
 

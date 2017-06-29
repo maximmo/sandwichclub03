@@ -101,7 +101,6 @@ public class OrderListFragment extends Fragment implements SwipeRefreshLayout.On
             public void onItemClick(RecyclerView recyclerView, View itemView, int position) {
                 //здесь вернем выбранный заказ в активити
                 //далее активити проинициализирует фрагмент с деталями заказа
-                //Toast.makeText(getContext(), "Выбран заказ " + order.getId().toString(), Toast.LENGTH_SHORT).show();
                 MyOrder order = orderListAdapter.getItem(position);
                 mCallback.onOrderSelected(order);
             }
@@ -190,7 +189,6 @@ public class OrderListFragment extends Fragment implements SwipeRefreshLayout.On
         @Override
         protected void onCancelled() {
             RecyclerViewOrderList.invalidate();
-
             swipe_container.setRefreshing(false);
         }
     }

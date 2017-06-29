@@ -24,6 +24,7 @@ import com.squareup.picasso.Picasso;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import ru.serv_techno.sandwichclub03.Basket;
 import ru.serv_techno.sandwichclub03.BasketActivity;
@@ -118,8 +119,11 @@ public class OrderFragment extends Fragment implements OrdersActivity.OnBackPres
 
     private void InitCardView(){
 
-        OrderItemId.setText(String.valueOf(myOrder.extid));
-        OrderItemSumm.setText(String.valueOf(myOrder.price) + " \u20BD");
+        String textExtId = "№ " + String.valueOf(myOrder.extid);
+        OrderItemId.setText(textExtId);
+
+        String orderPrice = String.format(Locale.getDefault(), "%.0f", myOrder.price) + " \u20BD";
+        OrderItemSumm.setText(orderPrice);
 
         String orderDate;
         SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM yyyy H:mm");
@@ -146,6 +150,14 @@ public class OrderFragment extends Fragment implements OrdersActivity.OnBackPres
                 break;
             case "confirmed":
                 orderStatus = "Подтвержден";
+                Picasso.with(getActivity())
+                        .load(android.R.drawable.presence_online)
+                        .placeholder(android.R.drawable.presence_invisible)
+                        .into(OrderImage);
+                SetBtnAvaliable(true);
+                break;
+            case "completed":
+                orderStatus = "Исполнен";
                 Picasso.with(getActivity())
                         .load(android.R.drawable.presence_online)
                         .placeholder(android.R.drawable.presence_invisible)

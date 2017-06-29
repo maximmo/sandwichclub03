@@ -17,6 +17,8 @@ import com.squareup.picasso.Picasso;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
+
 import ru.serv_techno.sandwichclub03.MyOrder;
 import ru.serv_techno.sandwichclub03.R;
 import ru.serv_techno.sandwichclub03.fragments.OrderListFragment;
@@ -39,7 +41,6 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
     public static class OrderListViewHolder extends RecyclerView.ViewHolder{
 
         ImageView OrderImage;
-        TextView OrderItemIdTextView;
         TextView OrderItemId;
         TextView OrderItemSummTextView;
         TextView OrderItemSumm;
@@ -51,7 +52,6 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
             super(itemView);
 
             OrderImage = (ImageView)itemView.findViewById(R.id.OrderImage);
-            OrderItemIdTextView = (TextView)itemView.findViewById(R.id.OrderItemIdTextView);
             OrderItemId = (TextView)itemView.findViewById(R.id.OrderItemId);
             OrderItemSummTextView = (TextView)itemView.findViewById(R.id.OrderItemSummTextView);
             OrderItemSumm = (TextView)itemView.findViewById(R.id.OrderItemSumm);
@@ -73,8 +73,11 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
     public void onBindViewHolder(OrderListAdapter.OrderListViewHolder holder, int position) {
         MyOrder myOrder = orderList.get(position);
 
-        holder.OrderItemId.setText(String.valueOf(myOrder.extid));
-        holder.OrderItemSumm.setText(String.valueOf(myOrder.price) + " \u20BD");
+        String textExtId = "№ " + String.valueOf(myOrder.extid);
+        holder.OrderItemId.setText(textExtId);
+
+        String orderPrice = String.format(Locale.getDefault(), "%.0f", myOrder.price) + " \u20BD";
+        holder.OrderItemSumm.setText(orderPrice);
 
         String orderDate;
         SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM yyyy H:mm");
@@ -106,6 +109,15 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
                         .load(android.R.drawable.presence_online)
                         .placeholder(android.R.drawable.presence_invisible)
                         .into(holder.OrderImage);
+                break;
+            case "completed":
+                holder.OrderItemCard.setCardBackgroundColor(ContextCompat.getColor(holder.OrderItemCard.getContext(), R.color.colorEndSpinner));
+                orderStatus = "Исполнен";
+                Picasso.with(ctx)
+                        .load(android.R.drawable.presence_online)
+                        .placeholder(android.R.drawable.presence_invisible)
+                        .into(holder.OrderImage);
+
                 break;
         }
         holder.OrderItemStatus.setText(orderStatus);

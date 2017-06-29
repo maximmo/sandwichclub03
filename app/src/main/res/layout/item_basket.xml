@@ -49,7 +49,7 @@
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="8dp"
-                android:text="Чизбургер классический"
+                android:text="@string/product_name_text"
                 android:textSize="13sp"
 
                 app:layout_constraintTop_toTopOf="parent"
@@ -62,7 +62,7 @@
                 android:id="@+id/cwBasketProductPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="26dp"
-                android:text="120 р."
+                android:text="@string/btn_price_text"
                 android:textColor="@color/productBtnBgColor"
                 android:gravity="center"
                 android:textSize="13sp"

@@ -48,7 +48,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .tilt(30)
                 .build();
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mMap.addMarker(new MarkerOptions().position(snoopy).title(getString(R.string.baloon_text)));
+        mMap.addMarker(new MarkerOptions().position(snoopy).title(getString(R.string.balloon_text)));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(snoopy));
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }

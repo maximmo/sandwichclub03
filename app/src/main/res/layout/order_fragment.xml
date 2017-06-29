@@ -25,7 +25,7 @@
             android:layout_marginTop="4dp"
             android:textColor="@color/cardview_light_background"
             android:background="@color/productBtnBgColor"
-            android:text="@string/RepeatOrderText"/>
+            android:text="@string/repeat_order_text"/>
     </LinearLayout>
 
 

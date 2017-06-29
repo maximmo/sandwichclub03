@@ -1,6 +1,7 @@
 package ru.serv_techno.sandwichclub03;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -40,6 +41,12 @@ public class ProductActivity extends AppCompatActivity {
         int itemPrice = (int)product.price;
         Button priceProduct = (Button)findViewById(R.id.priceProduct);
         priceProduct.setText(String.valueOf(itemPrice) +" \u20BD");
+        priceProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                countDialog();
+            }
+        });
 
         Button weightProduct = (Button)findViewById(R.id.weightProduct);
         weightProduct.setText(product.weightText);
@@ -61,11 +68,12 @@ public class ProductActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabProduct);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fabBasket = (FloatingActionButton) findViewById(R.id.fabProductBasket);
+        fabBasket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                countDialog();
+                Intent intent = new Intent(getApplicationContext(), BasketActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -101,9 +109,9 @@ public class ProductActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 boolean resultAdd = Basket.AddProduct(product, countProduct);
                 if(resultAdd){
-                    MySnackbar.ShowMySnackbar(findViewById(R.id.fabProduct), "Добавлен товар: " + product.name, R.color.SnackbarBg);
+                    MySnackbar.ShowMySnackbar(findViewById(R.id.priceProduct), "Добавлен товар: " + product.name, R.color.SnackbarBg);
                 }else{
-                    MySnackbar.ShowMySnackbar(findViewById(R.id.fabProduct), "Не удалось добавить позицию: " + product.name, R.color.SnackbarBgRed);
+                    MySnackbar.ShowMySnackbar(findViewById(R.id.priceProduct), "Не удалось добавить позицию: " + product.name, R.color.SnackbarBgRed);
                 }
             }
         });

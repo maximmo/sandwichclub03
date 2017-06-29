@@ -295,7 +295,23 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
 
     public void setDefaultStatus() throws InterruptedException {
 
-        onBackPressed();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.success_order_create_title);
+        builder.setMessage(R.string.success_order_create_message);
+        builder.setCancelable(true);
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //onBackPressed();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     class SendOrder extends AsyncTask<LinkedHashMap, Void, Map> {
@@ -333,7 +349,7 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
 
                 boolean BoolRes = Boolean.parseBoolean(StringRes);
 
-                if(BoolRes == true){
+                if(BoolRes){
                     List<MyOrder> myOrders = MyOrder.getNewMyOrders();
 
                     MyOrder myOrderLocal = myOrders.get(0);
@@ -350,6 +366,7 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
 
                     try {
                         setDefaultStatus();
+
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

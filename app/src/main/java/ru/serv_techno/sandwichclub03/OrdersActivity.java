@@ -80,8 +80,11 @@ public class OrdersActivity extends AppCompatActivity  implements OrderListFragm
     }
 
     public void InitOrderFragment(MyOrder myOrder){
+
+        MyOrder order = MyOrder.findById(MyOrder.class, myOrder.getId());
+
         orderFragment = new OrderFragment();
-        orderFragment.myOrder = myOrder;
+        orderFragment.myOrder = order;
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.ordersContainer, orderFragment);
         fragmentTransaction.addToBackStack(null);

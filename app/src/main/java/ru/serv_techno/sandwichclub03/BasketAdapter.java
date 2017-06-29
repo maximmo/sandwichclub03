@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
 
 import static ru.serv_techno.sandwichclub03.R.id.BasketCountItem;
 
@@ -73,7 +74,8 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
 
         if (product != null) {
             holder.cwBasketProductName.setText(product.name);
-            holder.cwBasketProductPrice.setText(String.valueOf(product.price) + " \u20BD");
+            String orderPrice = String.format(Locale.getDefault(), "%.0f", product.price) + " \u20BD";
+            holder.cwBasketProductPrice.setText(orderPrice);
 
             if (product.imageLink != null) {
                 Picasso.with(ctx)

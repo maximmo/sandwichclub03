@@ -28,8 +28,6 @@ public class MainActivity extends AppCompatActivity
     List<Catalog> catalogList;
     RecyclerView rvCatalogs;
     RecyclerView rvProducts;
-    DrawerLayout drawer;
-    NavigationView navigationView;
     ProductAdapter productAdapter;
 
     @Override
@@ -88,13 +86,11 @@ public class MainActivity extends AppCompatActivity
                     MainActivity.this.productAdapter = new ProductAdapter(MainActivity.this, productList);
                     rvProducts = (RecyclerView)findViewById(R.id.rwProducts);
                     rvProducts.setItemAnimator(new DefaultItemAnimator());
-                    //itemView.setBackgroundResource(R.color.SnackbarBgRed);
                     if(rvProducts!=null){
                         rvProducts.setAdapter(productAdapter);
                         productAdapter.notifyDataSetChanged();
                         getSupportActionBar().setTitle(cat.name);
                         drawer.closeDrawer(navigationView);
-
                     }
 
                     for(int i=0;i<catalogAdapter.catalogList.size();i++){
@@ -105,7 +101,6 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                     catalogAdapter.notifyDataSetChanged();
-
                 }
             });
         }
@@ -123,7 +118,6 @@ public class MainActivity extends AppCompatActivity
             rvProducts.addOnItemTouchListener(new RecyclerClickListener(this) {
                 @Override
                 public void onItemClick(RecyclerView recyclerView, View itemView, int position) {
-                    //Toast.makeText(MainActivity.this, MainActivity.this.productAdapter.getItem(position).name, Toast.LENGTH_SHORT).show();
                     Product product = MainActivity.this.productAdapter.getItem(position);
                     if(product!=null){
                         switch (itemView.getId()){

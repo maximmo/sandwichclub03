@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 import org.w3c.dom.Text;
 
 import java.util.List;
+import java.util.Locale;
 
 import ru.serv_techno.sandwichclub03.MyOrder;
 import ru.serv_techno.sandwichclub03.OrderProducts;
@@ -78,7 +79,8 @@ public class OrderProductsAdapter extends RecyclerView.Adapter<OrderProductsAdap
 
                 int countProducts = orderProduct.amount;
                 holder.cwBasketProductName.setText(product.name);
-                holder.cwBasketProductPrice.setText(String.valueOf(product.price) + " \u20BD");
+                String orderPrice = String.format(Locale.getDefault(), "%.0f", product.price) + " \u20BD";
+                holder.cwBasketProductPrice.setText(orderPrice);
                 holder.BasketCountItem.setText(String.valueOf(countProducts) + " шт");
                 holder.PlusBtn.setVisibility(View.GONE);
                 holder.MinusBtn.setVisibility(View.GONE);
