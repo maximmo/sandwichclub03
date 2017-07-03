@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -50,7 +51,6 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
     BasketAdapter basketAdapter;
     List<Basket> basketList;
     UserProfile userProfile;
-    private MyOrder myOrder;
 
     private Gson gson = new GsonBuilder().create();
     private Retrofit retrofit = new Retrofit.Builder()
@@ -170,14 +170,14 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
         int elementID = buttonView.getId();
         switch (elementID){
             case R.id.switchPay:
-                if(isChecked==true){
+                if(isChecked){
                     buttonView.setText("Наличными");
                 }else{
                     buttonView.setText("Картой");
                 }
                 break;
             case R.id.switchDelivery:
-                if(isChecked==true){
+                if(isChecked){
                     buttonView.setText("Доставка");
                 }else{
                     buttonView.setText("Самовывоз");
@@ -198,15 +198,19 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
 
     public void RefreshBasketSumm(){
         Float BasketSumm = Basket.getBasketSumm();
-        getSupportActionBar().setTitle("Сумма заказа: " + String.valueOf(BasketSumm) + " \u20BD");
+        ActionBar ab = getSupportActionBar();
+        if(ab!=null){
+            String ActionBarTitle = "Сумма заказа: " + String.valueOf(BasketSumm) + " \u20BD";
+            ab.setTitle(ActionBarTitle);
+        }
     }
 
     private void SetCreateOrderAvailability(){
         Boolean UserUnset = userProfile==null;
         Boolean IsZero = basketList.size()==0;
 
-        CreateOrder.setEnabled(BasketOffer.isChecked()&&UserUnset==false&&IsZero==false);
-        if(CreateOrder.isEnabled()&&UserUnset==false&&IsZero==false){
+        CreateOrder.setEnabled(BasketOffer.isChecked()&&!UserUnset&&!IsZero);
+        if(CreateOrder.isEnabled()&&!UserUnset&&!IsZero){
             CreateOrder.setBackgroundColor(ContextCompat.getColor(BasketActivity.this, R.color.productBtnBgColor));
         }else{
             CreateOrder.setBackgroundColor(Color.GRAY);
