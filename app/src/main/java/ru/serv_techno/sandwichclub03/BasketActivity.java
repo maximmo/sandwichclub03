@@ -38,6 +38,11 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import ru.serv_techno.sandwichclub03.adapters.BasketAdapter;
+import ru.serv_techno.sandwichclub03.models.Basket;
+import ru.serv_techno.sandwichclub03.models.MyOrder;
+import ru.serv_techno.sandwichclub03.models.OrderProducts;
+import ru.serv_techno.sandwichclub03.models.UserProfile;
 
 public class BasketActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -48,7 +53,7 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
     CheckBox BasketOffer;
     Button CreateOrder;
     TextView BasketProfileName;
-    BasketAdapter basketAdapter;
+    public BasketAdapter basketAdapter;
     List<Basket> basketList;
     UserProfile userProfile;
 

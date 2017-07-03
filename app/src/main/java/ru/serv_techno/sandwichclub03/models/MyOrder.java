@@ -1,27 +1,13 @@
-package ru.serv_techno.sandwichclub03;
+package ru.serv_techno.sandwichclub03.models;
 
-import android.util.Log;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.orm.SugarRecord;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Maxim on 18.08.2016.

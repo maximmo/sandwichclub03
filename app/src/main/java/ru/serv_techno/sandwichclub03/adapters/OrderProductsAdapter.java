@@ -11,14 +11,11 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 import java.util.Locale;
 
-import ru.serv_techno.sandwichclub03.MyOrder;
-import ru.serv_techno.sandwichclub03.OrderProducts;
-import ru.serv_techno.sandwichclub03.Product;
+import ru.serv_techno.sandwichclub03.models.OrderProducts;
+import ru.serv_techno.sandwichclub03.models.Product;
 import ru.serv_techno.sandwichclub03.R;
 
 /**

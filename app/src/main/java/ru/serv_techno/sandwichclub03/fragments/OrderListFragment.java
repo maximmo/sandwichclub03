@@ -13,29 +13,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.ResponseBody;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.serv_techno.sandwichclub03.APIv1;
-import ru.serv_techno.sandwichclub03.MyOrder;
+import ru.serv_techno.sandwichclub03.models.MyOrder;
 import ru.serv_techno.sandwichclub03.R;
 import ru.serv_techno.sandwichclub03.RecyclerClickListener;
 import ru.serv_techno.sandwichclub03.adapters.OrderListAdapter;

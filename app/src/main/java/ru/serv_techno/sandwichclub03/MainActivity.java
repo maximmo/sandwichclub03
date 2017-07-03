@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,6 +19,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ru.serv_techno.sandwichclub03.adapters.CatalogAdapter;
+import ru.serv_techno.sandwichclub03.adapters.ProductAdapter;
+import ru.serv_techno.sandwichclub03.models.Catalog;
+import ru.serv_techno.sandwichclub03.models.Product;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -206,17 +210,6 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-//        int id = item.getItemId();
-//
-//        if (id == R.id.nav_map) {
-//
-//        } else if (id == R.id.nav_call) {
-//
-//        } else if (id == R.id.nav_profile) {
-//
-//        }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

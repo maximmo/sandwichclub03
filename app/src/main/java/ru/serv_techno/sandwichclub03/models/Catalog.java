@@ -1,4 +1,4 @@
-package ru.serv_techno.sandwichclub03;
+package ru.serv_techno.sandwichclub03.models;
 
 import android.util.Log;
 
@@ -6,23 +6,23 @@ import com.orm.SugarRecord;
 
 import java.util.List;
 
+import ru.serv_techno.sandwichclub03.R;
+
 /**
  * Created by Maxim on 18.08.2016.
  */
 public class Catalog extends SugarRecord {
 
-    //int ext_id;
-    String name;
+    public String name;
     int parent_id;
     String code;
     int active;
-    int countProducts;
+    public int countProducts;
 
     public Catalog() {
     }
 
-    public Catalog(String name, int parent_id, String code, int active,   int countProducts) {
-        //this.ext_id = ext_id;
+    public Catalog(String name, int parent_id, String code, int active, int countProducts) {
         this.active = active;
         this.code = code;
         this.name = name;

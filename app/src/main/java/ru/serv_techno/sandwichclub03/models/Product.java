@@ -1,4 +1,4 @@
-package ru.serv_techno.sandwichclub03;
+package ru.serv_techno.sandwichclub03.models;
 
 import android.util.Log;
 
@@ -6,11 +6,12 @@ import com.orm.SugarRecord;
 
 import java.util.List;
 
+import ru.serv_techno.sandwichclub03.R;
+
 /**
  * Created by Maxim on 18.08.2016.
  */
 public class Product extends SugarRecord {
-    //int ext_id;
     public String name;
     String description;
     public float price;
@@ -18,13 +19,13 @@ public class Product extends SugarRecord {
     int catalog_1;
     int catalog_2;
     int main_view;
-    String text;
+    public String text;
     int like;
     String code;
     int active;
     public String imageLink;
-    String bigImageLink;
-    String weightText;
+    public String bigImageLink;
+    public String weightText;
 
     public Product() {
     }
@@ -32,7 +33,7 @@ public class Product extends SugarRecord {
     public Product(String name, String description, float price, String weight,
                    int catalog1, int catalog2, int mainview, String text, int like, String code,
                    int active, String imagelink, String bigImageLink, String weightText) {
-        // this.ext_id = ext_id;
+
         this.name = name;
         this.description = description;
         this.price = price;

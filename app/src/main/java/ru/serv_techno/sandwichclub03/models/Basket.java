@@ -1,4 +1,4 @@
-package ru.serv_techno.sandwichclub03;
+package ru.serv_techno.sandwichclub03.models;
 
 import android.util.Log;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Basket extends SugarRecord {
 
-    int itembasket;
+    public int itembasket;
     public int countProducts;
     float price;
     float summ;

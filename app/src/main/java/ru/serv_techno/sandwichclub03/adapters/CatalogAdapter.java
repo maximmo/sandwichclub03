@@ -1,8 +1,6 @@
-package ru.serv_techno.sandwichclub03;
+package ru.serv_techno.sandwichclub03.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+
+import ru.serv_techno.sandwichclub03.models.Catalog;
+import ru.serv_techno.sandwichclub03.R;
 
 /**
  * Created by Maxim on 27.04.2017.
@@ -23,7 +24,7 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogV
     public boolean[] selected;
 
     //Конструктор адаптера
-    CatalogAdapter(Context ctx, List<Catalog> catalogList, boolean[] selected){
+    public CatalogAdapter(Context ctx, List<Catalog> catalogList, boolean[] selected){
         this.ctx = ctx;
         this.catalogList = catalogList;
         this.selected = selected;

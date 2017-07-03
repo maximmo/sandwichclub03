@@ -11,6 +11,8 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PartMap;
 import retrofit2.http.Query;
+import ru.serv_techno.sandwichclub03.models.Catalog;
+import ru.serv_techno.sandwichclub03.models.Product;
 
 /**
  * Created by Maxim on 24.09.2016.

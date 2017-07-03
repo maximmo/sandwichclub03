@@ -1,4 +1,4 @@
-package ru.serv_techno.sandwichclub03;
+package ru.serv_techno.sandwichclub03.models;
 
 import com.orm.SugarRecord;
 

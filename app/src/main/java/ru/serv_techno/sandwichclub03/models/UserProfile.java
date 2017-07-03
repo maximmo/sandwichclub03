@@ -1,4 +1,4 @@
-package ru.serv_techno.sandwichclub03;
+package ru.serv_techno.sandwichclub03.models;
 
 import com.orm.SugarRecord;
 
@@ -9,19 +9,17 @@ import java.util.List;
  */
 
 public class UserProfile extends SugarRecord {
-    String name;
-    String phone;
-    String address;
+    public String name;
+    public String phone;
+    public String address;
 
     public UserProfile() {
     }
 
     public UserProfile(String name, String phone, String address) {
-
         this.name = name;
         this.phone = phone;
         this.address = address;
-
     }
 
     public static UserProfile getUser(){

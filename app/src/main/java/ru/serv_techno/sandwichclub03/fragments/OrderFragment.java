@@ -1,6 +1,5 @@
 package ru.serv_techno.sandwichclub03.fragments;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,17 +19,16 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-import ru.serv_techno.sandwichclub03.Basket;
+import ru.serv_techno.sandwichclub03.models.Basket;
 import ru.serv_techno.sandwichclub03.BasketActivity;
-import ru.serv_techno.sandwichclub03.MyOrder;
-import ru.serv_techno.sandwichclub03.OrderProducts;
+import ru.serv_techno.sandwichclub03.models.MyOrder;
+import ru.serv_techno.sandwichclub03.models.OrderProducts;
 import ru.serv_techno.sandwichclub03.OrdersActivity;
-import ru.serv_techno.sandwichclub03.Product;
+import ru.serv_techno.sandwichclub03.models.Product;
 import ru.serv_techno.sandwichclub03.R;
 import ru.serv_techno.sandwichclub03.adapters.OrderProductsAdapter;
 

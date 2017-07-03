@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import ru.serv_techno.sandwichclub03.fragments.OrderFragment;
 import ru.serv_techno.sandwichclub03.fragments.OrderListFragment;
+import ru.serv_techno.sandwichclub03.models.MyOrder;
 
 public class OrdersActivity extends AppCompatActivity  implements OrderListFragment.OnOrderSelectedListener{
 

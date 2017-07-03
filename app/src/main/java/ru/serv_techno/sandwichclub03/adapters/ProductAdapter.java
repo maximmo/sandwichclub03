@@ -1,4 +1,4 @@
-package ru.serv_techno.sandwichclub03;
+package ru.serv_techno.sandwichclub03.adapters;
 
 import android.content.Context;
 import android.support.design.widget.Snackbar;
@@ -7,8 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +14,10 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import ru.serv_techno.sandwichclub03.models.Basket;
+import ru.serv_techno.sandwichclub03.models.Product;
+import ru.serv_techno.sandwichclub03.R;
 
 /**
  * Created by Maxim on 27.04.2017.
@@ -29,7 +31,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     int lastPosition = -1;
 
     //Конструктор адаптера
-    ProductAdapter(Context ctx, List<Product> productList){
+    public ProductAdapter(Context ctx, List<Product> productList){
         this.ctx = ctx;
         this.productList = productList;
     }

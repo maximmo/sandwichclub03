@@ -1,8 +1,6 @@
 package ru.serv_techno.sandwichclub03.adapters;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -14,14 +12,12 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-import ru.serv_techno.sandwichclub03.MyOrder;
+import ru.serv_techno.sandwichclub03.models.MyOrder;
 import ru.serv_techno.sandwichclub03.R;
-import ru.serv_techno.sandwichclub03.fragments.OrderListFragment;
 
 /**
  * Created by Maxim on 19.06.2017.
