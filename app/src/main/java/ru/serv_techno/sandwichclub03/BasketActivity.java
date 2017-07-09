@@ -60,7 +60,7 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
     private Gson gson = new GsonBuilder().create();
     private Retrofit retrofit = new Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl("http://admin.serv-techno.ru")
+            .baseUrl("http://admin.snoopy03.ru")
             .build();
     private APIv1 intface = retrofit.create(APIv1.class);
 

@@ -14,7 +14,7 @@
         android:orientation="horizontal"
         android:divider="@drawable/sepatator"
         android:dividerPadding="0dp"
-        android:showDividers="middle">
+        android:showDividers="none">
 
         <Button
             android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             android:layout_weight="1"
             android:id="@+id/weightProduct"
             android:clickable="false"
-            android:textColor="#00b0e4" />
+            android:textColor="@color/productBtnBgColor" />
 
         <Button
             android:layout_width="match_parent"
