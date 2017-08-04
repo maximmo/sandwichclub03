@@ -20,7 +20,7 @@ public class Product extends SugarRecord {
     int catalog_2;
     int main_view;
     public String text;
-    int like;
+    public int like;
     String code;
     int active;
     public String imageLink;
@@ -48,6 +48,13 @@ public class Product extends SugarRecord {
         this.imageLink = imagelink;
         this.bigImageLink = bigImageLink;
         this.weightText = weightText;
+    }
+
+    public int LikesPlus(int count){
+        this.like = this.like + count;
+        this.save();
+
+        return this.like;
     }
 
     public static List<Product> getProductsMainView() {

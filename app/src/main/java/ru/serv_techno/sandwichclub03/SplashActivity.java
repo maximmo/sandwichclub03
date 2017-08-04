@@ -35,7 +35,7 @@ public class SplashActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://admin.snoopy03.ru")
+                .baseUrl("http://admin.serv-techno.ru")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -71,7 +71,6 @@ public class SplashActivity extends AppCompatActivity {
                     Log.e(LOG_TAG, String.valueOf(R.string.InternetErrorMessage));
                     finish();
                 }
-
             }
 
             @Override

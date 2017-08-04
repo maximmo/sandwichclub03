@@ -24,11 +24,12 @@ public class MyOrder extends SugarRecord {
     List<OrderProducts> orderProducts;
     public String status;
     public Date dateCreate;
+    public String bank_note;
 
     public MyOrder() {
     }
 
-    public MyOrder(int extid, float price, String paymenttype, int numberperson, String delivery, UserProfile userProfile, List<OrderProducts> orderProducts, int ismobile, String status, Date dateCreate) {
+    public MyOrder(int extid, float price, String paymenttype, int numberperson, String delivery, UserProfile userProfile, List<OrderProducts> orderProducts, int ismobile, String status, Date dateCreate, String bank_note) {
         this.extid = extid;
         this.price = price;
         this.paymenttype = paymenttype;
@@ -39,6 +40,7 @@ public class MyOrder extends SugarRecord {
         this.ismobile = ismobile;
         this.status = status;
         this.dateCreate = dateCreate;
+        this.bank_note = bank_note;
     }
 
     public LinkedHashMap MakeRequestBodyOrder() {
@@ -60,6 +62,9 @@ public class MyOrder extends SugarRecord {
 
         rb = RequestBody.create(MediaType.parse("text/plain"), this.delivery);
         mp.put("delivery", rb);
+
+        rb = RequestBody.create(MediaType.parse("text/plain"), this.bank_note);
+        mp.put("bank_note", rb);
 
         rb = RequestBody.create(MediaType.parse("text/plain"), this.userProfile.name);
         mp.put("client[name]", rb);

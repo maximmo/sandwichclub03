@@ -56,11 +56,12 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
     public BasketAdapter basketAdapter;
     List<Basket> basketList;
     UserProfile userProfile;
+    TextView banknote;
 
     private Gson gson = new GsonBuilder().create();
     private Retrofit retrofit = new Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl("http://admin.snoopy03.ru")
+            .baseUrl("http://admin.serv-techno.ru")
             .build();
     private APIv1 intface = retrofit.create(APIv1.class);
 
@@ -97,6 +98,8 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
             switchDelivery.setText("Доставка");
             switchDelivery.setOnCheckedChangeListener(this);
         }
+
+        banknote = (TextView)findViewById(R.id.Banknote);
 
         //установим доступность кнопки заказа
         CreateOrder = (Button)findViewById(R.id.CreateOrder);
@@ -257,7 +260,7 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
 
         List<OrderProducts> orderProducts = OrderProducts.getOrderProductsNew();
 
-        MyOrder myOrder = new MyOrder(0, Basket.getBasketSumm(), paymentType, 1, delivery, userProfile, orderProducts, 1, "new", new Date());
+        MyOrder myOrder = new MyOrder(0, Basket.getBasketSumm(), paymentType, 1, delivery, userProfile, orderProducts, 1, "new", new Date(), banknote.getText().toString());
         try{
             myOrder.save();
             for(OrderProducts op : NewOrderProducts){

@@ -23,6 +23,9 @@ public interface APIv1 {
     @POST("/api/v1/order/create")
     Call<ResponseBody> SendOrder(@PartMap Map<String, RequestBody> params);
 
+    @POST("/api/v1/product/update")
+    Call<ResponseBody> UpdateProduct(@PartMap Map<String, RequestBody> params);
+
     @GET("/api/v1/catalog/index")
     Call<List<Catalog>> getCatalogs(@Query("per-page") int count);
 

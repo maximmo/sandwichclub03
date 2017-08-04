@@ -43,6 +43,20 @@
                 tools:ignore="ContentDescription" />
 
             <TextView
+                android:id="@+id/likes"
+                android:layout_width="50dp"
+                android:text="0"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                android:layout_height="20dp"
+                android:drawableLeft="@drawable/like_20_gray"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
                 android:id="@+id/cwProductName"
                 android:layout_width="0dp"
                 android:layout_height="24dp"
@@ -64,6 +78,7 @@
                 android:layout_height="20dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/btn_weight_text"
+                android:gravity="center"
                 android:textColor="@color/productBtnBgColor"
                 android:textSize="14sp"
                 android:textStyle="normal"
@@ -90,4 +105,8 @@
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>
+
+
+
+
 </android.support.constraint.ConstraintLayout>

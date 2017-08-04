@@ -135,7 +135,7 @@ public class OrderListFragment extends Fragment implements SwipeRefreshLayout.On
 
             final String LOG_TAG = "snoopy_st_log";
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://admin.snoopy03.ru/")
+                    .baseUrl("http://admin.serv-techno.ru/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
