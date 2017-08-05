@@ -1,27 +1,25 @@
 package ru.serv_techno.sandwichclub03;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import ru.serv_techno.sandwichclub03.models.Catalog;
 import ru.serv_techno.sandwichclub03.models.Product;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private Retrofit retrofit;
-    private static APIv1 myApi;
     private static final String LOG_TAG = "snoopy_st_log";
 
     List<Catalog> catalogList;
@@ -34,102 +32,132 @@ public class SplashActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl("http://admin.serv-techno.ru")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        //создадим экземпляр класса работы с API
-        myApi = retrofit.create(APIv1.class);
-
         //инициализируем списки каталогов и товаров
         catalogList = new ArrayList<>();
         productList = new ArrayList<>();
 
-        //получим группы товаров
-        myApi.getCatalogs(50).enqueue(new Callback<List<Catalog>>() {
-            @Override
-            public void onResponse(Call<List<Catalog>> call, Response<List<Catalog>> response) {
+        CatalogLoader catalogLoader = new CatalogLoader();
+        catalogLoader.execute();
+    }
+
+    class CatalogLoader extends AsyncTask<Void, Void, Integer> {
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            int TotalCountCatalog = 0;
+
+            try {
+                //отправим первый запрос для анализа заголовков
+                Response<List<Catalog>> response = ApiFactory.getInstance().getApi().getCatalogs(50, 1).execute();
                 if (response != null) {
-                    catalogList.addAll(response.body());
+                    //здесь проанализируем заголовки
+                    String TotalCatalogPages = response.headers().get("X-Pagination-Page-Count");
+                    int CatalogPages = Integer.parseInt(TotalCatalogPages);
 
-                    //сделаем все каталоги неактивными
-                    setUnactiveCatalogs();
+                    for (int i = 1; i <= CatalogPages; i++) {
+                        Response<List<Catalog>> responseIncrement = ApiFactory.getInstance().getApi().getCatalogs(50, i).execute();
 
-                    for (int i = 0; i < catalogList.size(); i++) {
-                        try {
-                            Catalog cat = catalogList.get(i);
-                            cat.save();
+                        if (responseIncrement != null) {
+                            catalogList.addAll(responseIncrement.body());
 
-                            Log.d(LOG_TAG, "Записана группа: " + cat.name);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Log.e(LOG_TAG, "Ошибка при записи группы: " + e.getMessage());
-                        }
-                    }
-                } else {
-                    Log.e(LOG_TAG, String.valueOf(R.string.InternetErrorMessage));
-                    finish();
-                }
-            }
+                            //сделаем все каталоги неактивными
+                            setUnactiveCatalogs();
 
-            @Override
-            public void onFailure(Call<List<Catalog>> call, Throwable t) {
-                Toast.makeText(SplashActivity.this, R.string.InternetErrorMessage, Toast.LENGTH_SHORT).show();
-                Log.e(LOG_TAG, String.valueOf(R.string.InternetErrorMessage));
-                finish();
-            }
-        });
+                            for (int j = 0; j < catalogList.size(); j++) {
+                                try {
+                                    Catalog cat = catalogList.get(j);
+                                    cat.save();
 
-        //получим товары
-        //пока временно накостыляем, потом обработать заголовки от сервера и прикрутить нормальную пагинацию
-        for (int myIncrement = 1; myIncrement < 3; myIncrement++) {
-            myApi.getProducts(100, myIncrement).enqueue(new Callback<List<Product>>() {
-                @Override
-                public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-                    if (response != null) {
-                        productList.addAll(response.body());
+                                    TotalCountCatalog++;
 
-                        //сделаем все товары неактивными
-                        setUnactiveProducts();
-
-                        for (int i = 0; i < productList.size(); i++) {
-                            try {
-                                Product prod = productList.get(i);
-                                prod.save();
-
-                                Log.d(LOG_TAG, "Записано блюдо: " + prod.name);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                Log.e(LOG_TAG, "Ошибка при записи блюда: " + e.getMessage());
+                                    Log.d(LOG_TAG, "Записана группа: " + cat.name);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    Log.e(LOG_TAG, "Ошибка при записи группы: " + e.getMessage());
+                                }
                             }
+                        } else {
+                            Log.e(LOG_TAG, String.valueOf(R.string.InternetErrorMessage));
+                            return null;
                         }
-                    } else {
-                        Toast.makeText(SplashActivity.this, R.string.InternetErrorMessage, Toast.LENGTH_SHORT).show();
-                        Log.e(LOG_TAG, String.valueOf(R.string.InternetErrorMessage));
-                        finish();
                     }
+                    return TotalCountCatalog;
                 }
-
-                @Override
-                public void onFailure(Call<List<Product>> call, Throwable t) {
-                    Toast.makeText(SplashActivity.this, R.string.InternetErrorMessage, Toast.LENGTH_SHORT).show();
-                    Log.e(LOG_TAG, String.valueOf(R.string.InternetErrorMessage));
-                    finish();
-                }
-            });
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+            return null;
         }
 
-        //запустим MainActivity
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent myIntent = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(myIntent);
+        @Override
+        protected void onPostExecute(Integer aVoid) {
+            if (aVoid == null) {
                 finish();
             }
-        }, 3 * 1000);
 
+            ProductLoader productLoader = new ProductLoader();
+            productLoader.execute();
+        }
+    }
+
+    class ProductLoader extends AsyncTask<Void, Void, Integer> {
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            int TotalCountProduct = 0;
+
+            try {
+                Response<List<Product>> response = ApiFactory.getInstance().getApi().getProducts(50, 1).execute();
+
+                if (response != null) {
+                    String TotalProductPages = response.headers().get("X-Pagination-Page-Count");
+                    int ProductPages = Integer.parseInt(TotalProductPages);
+
+                    for (int myIncrement = 1; myIncrement <= ProductPages; myIncrement++) {
+                        Response<List<Product>> responseIncrement = ApiFactory.getInstance().getApi().getProducts(50, 1).execute();
+                        if (responseIncrement != null) {
+                            productList.addAll(responseIncrement.body());
+
+                            //сделаем все товары неактивными
+                            setUnactiveProducts();
+
+                            for (int i = 0; i < productList.size(); i++) {
+                                try {
+                                    Product prod = productList.get(i);
+                                    prod.save();
+
+                                    TotalCountProduct++;
+                                    Log.d(LOG_TAG, "Записано блюдо: " + prod.name);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    Log.e(LOG_TAG, "Ошибка при записи блюда: " + e.getMessage());
+                                }
+                            }
+                        }
+                    }
+                    return TotalCountProduct;
+                } else {
+                    Toast.makeText(SplashActivity.this, R.string.InternetErrorMessage, Toast.LENGTH_SHORT).show();
+                    Log.e(LOG_TAG, String.valueOf(R.string.InternetErrorMessage));
+                    return null;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Integer aVoid) {
+            if (aVoid == null) {
+                finish();
+            }
+
+            Intent myIntent = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(myIntent);
+            finish();
+        }
     }
 
     private void setUnactiveCatalogs() {

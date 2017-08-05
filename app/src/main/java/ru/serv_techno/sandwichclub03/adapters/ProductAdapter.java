@@ -29,13 +29,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     Context ctx;
     List<Product> productList;
+    public boolean[] selected;
 
     int lastPosition = -1;
 
     //Конструктор адаптера
-    public ProductAdapter(Context ctx, List<Product> productList) {
+    public ProductAdapter(Context ctx, List<Product> productList, boolean[] selected) {
         this.ctx = ctx;
         this.productList = productList;
+        this.selected = selected;
     }
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
@@ -85,8 +87,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.addButton.setTag(String.valueOf(prod.getId()));
         holder.addButton.setOnClickListener(btnItemPress);
         holder.likes.setText(String.valueOf(prod.like));
-        holder.likes.setTag(String.valueOf(prod.getId()));
+        holder.likes.setTag(String.valueOf(position));
         holder.likes.setOnClickListener(likeItemPress);
+
+        if (selected[position]) {
+            holder.likes.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_20_red, 0, 0, 0);
+        } else {
+            holder.likes.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_20_gray, 0, 0, 0);
+        }
 
 //        if(position >lastPosition) {
 //            Animation animation = AnimationUtils.loadAnimation(ctx, R.anim.product_rw_anim);
@@ -127,20 +135,39 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     View.OnClickListener likeItemPress = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int productid = Integer.parseInt(v.getTag().toString());
-            Product product = Product.getProductById(productid);
+            int position = Integer.parseInt(v.getTag().toString());
+            Product product = getItem(position);
+
+            Boolean state = selected[position];
+
             if (product != null) {
 
-                View parent = (View)v.getParent();
-                if (parent != null) {
-                    int newLikes = product.like;
 
-                    newLikes = product.LikesPlus(1);
+                if (!state) {
+                    View parent = (View) v.getParent();
+                    if (parent != null) {
+                        int newLikes = product.LikesPlus(1);
 
-                    TextView likesTextView = (TextView) parent.findViewById(R.id.likes);
-                    if(likesTextView!=null){
-                        likesTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_20_red, 0, 0, 0);
-                        likesTextView.setText(String.valueOf(newLikes));
+                        TextView likesTextView = (TextView) parent.findViewById(R.id.likes);
+
+                        if (likesTextView != null) {
+                            likesTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_20_red, 0, 0, 0);
+                            likesTextView.setText(String.valueOf(newLikes));
+                        }
+                        selected[position] = true;
+                    }
+                } else {
+                    View parent = (View) v.getParent();
+                    if (parent != null) {
+                        int newLikes = product.LikesPlus(-1);
+
+                        TextView likesTextView = (TextView) parent.findViewById(R.id.likes);
+
+                        if (likesTextView != null) {
+                            likesTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_20_gray, 0, 0, 0);
+                            likesTextView.setText(String.valueOf(newLikes));
+                        }
+                        selected[position] = false;
                     }
                 }
             }

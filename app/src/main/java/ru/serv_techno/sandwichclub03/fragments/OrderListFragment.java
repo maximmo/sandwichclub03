@@ -27,6 +27,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.serv_techno.sandwichclub03.APIv1;
+import ru.serv_techno.sandwichclub03.ApiFactory;
 import ru.serv_techno.sandwichclub03.models.MyOrder;
 import ru.serv_techno.sandwichclub03.R;
 import ru.serv_techno.sandwichclub03.RecyclerClickListener;
@@ -134,18 +135,12 @@ public class OrderListFragment extends Fragment implements SwipeRefreshLayout.On
         protected Void doInBackground(RecyclerView.Adapter... params) {
 
             final String LOG_TAG = "snoopy_st_log";
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://admin.serv-techno.ru/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-            APIv1 myApi = retrofit.create(APIv1.class);
             List<MyOrder> orderList = MyOrder.getOrdersByStatus("new");
 
             for(final MyOrder order : orderList){
                 String filter = "" + "{'id':" + String.valueOf(order.extid) + "}";
                 try {
-                    retrofit2.Response<ResponseBody> response = myApi.getOrder(filter).execute();
+                    retrofit2.Response<ResponseBody> response = ApiFactory.getInstance().getApi().getOrder(filter).execute();
                     if(response.code()==200||response.code()==201){
                         ResponseBody responseBody = response.body();
                         String MyMessage = responseBody.string();

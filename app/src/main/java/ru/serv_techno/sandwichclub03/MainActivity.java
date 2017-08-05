@@ -87,7 +87,11 @@ public class MainActivity extends AppCompatActivity
                     productList = new ArrayList<>();
                     productList.clear();
                     productList = Product.getProductsCatalog1(String.valueOf(catId));
-                    MainActivity.this.productAdapter = new ProductAdapter(MainActivity.this, productList);
+                    boolean[] selectedProd = new boolean[productList.size()];
+                    for(int i=0;i<productList.size();i++){
+                        selectedProd[i]=false;
+                    }
+                    MainActivity.this.productAdapter = new ProductAdapter(MainActivity.this, productList, selectedProd);
                     rvProducts = (RecyclerView)findViewById(R.id.rwProducts);
                     rvProducts.setItemAnimator(new DefaultItemAnimator());
                     if(rvProducts!=null){
@@ -113,7 +117,11 @@ public class MainActivity extends AppCompatActivity
         productList = new ArrayList<>();
         productList.clear();
         productList = Product.getProductsMainView();
-        MainActivity.this.productAdapter = new ProductAdapter(this, productList);
+        boolean[] selectedProd = new boolean[productList.size()];
+        for(int i=0;i<productList.size();i++){
+            selectedProd[i]=false;
+        }
+        MainActivity.this.productAdapter = new ProductAdapter(this, productList, selectedProd);
         rvProducts = (RecyclerView)findViewById(R.id.rwProducts);
         rvProducts.setItemAnimator(new DefaultItemAnimator());
         if(rvProducts!=null){

@@ -11,12 +11,12 @@ import java.util.List;
 public class UserProfile extends SugarRecord {
     public String name;
     public String phone;
-    public String address;
+    public Address address;
 
     public UserProfile() {
     }
 
-    public UserProfile(String name, String phone, String address) {
+    public UserProfile(String name, String phone, Address address) {
         this.name = name;
         this.phone = phone;
         this.address = address;

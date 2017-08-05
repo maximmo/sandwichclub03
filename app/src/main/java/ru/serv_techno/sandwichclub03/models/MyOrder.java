@@ -72,7 +72,7 @@ public class MyOrder extends SugarRecord {
         rb = RequestBody.create(MediaType.parse("text/plain"), this.userProfile.phone);
         mp.put("client[phone]", rb);
 
-        rb = RequestBody.create(MediaType.parse("text/plain"), this.userProfile.address);
+        rb = RequestBody.create(MediaType.parse("text/plain"), this.userProfile.address.address);
         mp.put("client[address]", rb);
 
         for (int i = 0; i < this.orderProducts.size(); i++) {

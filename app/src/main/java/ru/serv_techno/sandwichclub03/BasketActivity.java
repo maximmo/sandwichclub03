@@ -59,11 +59,7 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
     TextView banknote;
 
     private Gson gson = new GsonBuilder().create();
-    private Retrofit retrofit = new Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl("http://admin.serv-techno.ru")
-            .build();
-    private APIv1 intface = retrofit.create(APIv1.class);
+    private APIv1 intface = ApiFactory.getInstance().getApi();
 
     ProgressDialog OrderProgressDialog;
 
