@@ -128,20 +128,56 @@
 
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/Banknote"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/CommentInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="number"
-            android:hint="Сдача с"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/BasketLinearLayout2"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="4dp"
             android:layout_marginRight="8dp"
-            app:layout_constraintRight_toRightOf="parent" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/BasketLinearLayout2">
+
+            <EditText
+                android:id="@+id/Comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Комментарий"
+                android:scrollbars="vertical"
+                android:lines="2"
+                android:minLines="1"
+                android:maxLines="4"
+                android:gravity="top|left"
+                android:inputType="textMultiLine" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/BanknoteInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/CommentInputLayout">
+
+            <EditText
+                android:id="@+id/Banknote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Сдача с"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
 
         <CheckBox
             android:id="@+id/BasketOffer"
@@ -154,23 +190,23 @@
             android:text="@string/offer_text"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Banknote" />
+            app:layout_constraintTop_toBottomOf="@+id/BanknoteInputLayout" />
 
         <TextView
             android:id="@+id/OrderInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:padding="8dp"
             android:layout_weight="1"
-            android:text="@string/order_info_text"
             android:background="@color/OrderInfoBg"
+            android:padding="8dp"
+            android:text="@string/order_info_text"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/BasketOffer" >
+            app:layout_constraintTop_toBottomOf="@+id/BasketOffer">
 
         </TextView>
 
@@ -180,13 +216,12 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginTop="8dp"
+            android:background="@color/productBtnBgColor"
             android:text="@string/create_order_text"
             android:textColor="@color/cardview_light_background"
-            android:background="@color/productBtnBgColor"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/OrderInfo"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/OrderInfo" />
     </android.support.constraint.ConstraintLayout>
 
 </ScrollView>

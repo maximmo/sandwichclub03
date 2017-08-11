@@ -2,9 +2,13 @@ package ru.serv_techno.sandwichclub03;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.PhoneNumberUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -14,12 +18,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.List;
+import java.util.Locale;
 
 import ru.serv_techno.sandwichclub03.adapters.SpinnerAdapter;
 import ru.serv_techno.sandwichclub03.models.Address;
 import ru.serv_techno.sandwichclub03.models.UserProfile;
+import ru.tinkoff.decoro.MaskImpl;
+import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser;
+import ru.tinkoff.decoro.slots.Slot;
+import ru.tinkoff.decoro.watchers.FormatWatcher;
+import ru.tinkoff.decoro.watchers.MaskFormatWatcher;
 
 public class UserProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -32,8 +43,8 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
     Address DefaultAddress;
 
     Spinner spinner;
-    Button AddAddress;
-    Button EditAddress;
+    TextView AddAddress;
+    TextView EditAddress;
     List<Address> addressList;
     SpinnerAdapter spinnerAdapter;
 
@@ -48,11 +59,18 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 
         ProfileNameEditText = (EditText) findViewById(R.id.ProfileNameEditText);
         ProfilePhoneEditText = (EditText) findViewById(R.id.ProfilePhoneEditText);
+
+        Slot[] slots = new UnderscoreDigitSlotsParser().parseSlots("+7-___-___-__-__");
+        FormatWatcher formatWatcher = new MaskFormatWatcher( // форматировать текст будет вот он
+                MaskImpl.createTerminated(slots)
+        );
+        formatWatcher.installOn(ProfilePhoneEditText);
+
         ProfileBtnSave = (Button) findViewById(R.id.ProfileBtnSave);
         ProfileBtnSave.setOnClickListener(this);
-        AddAddress = (Button) findViewById(R.id.AddAddress);
+        AddAddress = (TextView) findViewById(R.id.AddAddress);
         AddAddress.setOnClickListener(this);
-        EditAddress = (Button) findViewById(R.id.EditAddress);
+        EditAddress = (TextView) findViewById(R.id.EditAddress);
         EditAddress.setOnClickListener(this);
         spinner = (Spinner) findViewById(R.id.SpinnerAddress);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

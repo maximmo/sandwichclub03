@@ -29,9 +29,9 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/basket_btn"
             android:textAllCaps="false"
             android:textColor="@color/colorEndSpinner"
+            android:drawableLeft="@drawable/cart_fa"
             android:textSize="14sp"
             android:textStyle="normal"
             android:text="@string/btn_price_text"

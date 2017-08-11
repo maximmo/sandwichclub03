@@ -10,7 +10,7 @@
         android:layout_margin="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Введите адрес" />
+        android:hint="Адрес доставки" />
 
     <EditText
         android:id="@+id/AlertDescription"
@@ -19,5 +19,5 @@
         android:layout_margin="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Описание адреса, например - Домашний" />
+        android:hint="Описание, например - Домашний" />
 </LinearLayout>

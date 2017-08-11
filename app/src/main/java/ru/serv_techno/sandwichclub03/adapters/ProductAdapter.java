@@ -11,12 +11,24 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import ru.serv_techno.sandwichclub03.ApiFactory;
 import ru.serv_techno.sandwichclub03.models.Basket;
 import ru.serv_techno.sandwichclub03.models.Product;
 import ru.serv_techno.sandwichclub03.R;
@@ -170,6 +182,41 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                         selected[position] = false;
                     }
                 }
+
+                //здесь отправим запрос на сайт, обновим количество лайков
+                RequestBody rb;
+                LinkedHashMap<String, RequestBody> hashMap = new LinkedHashMap<>();
+
+                rb = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(product.like));
+                hashMap.put("like", rb);
+
+                ApiFactory.getInstance().getApi().UpdateProduct(hashMap, product.getId().intValue()).enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                        if(response.isSuccessful()){
+                            String MyMessage = null;
+                            try {
+                                MyMessage = response.body().string();
+
+                                Gson gson = new GsonBuilder().create();
+
+                                Map<String, String> map = gson.fromJson(MyMessage, Map.class);
+
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
             }
         }
     };

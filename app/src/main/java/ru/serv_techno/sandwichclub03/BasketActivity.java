@@ -57,6 +57,7 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
     List<Basket> basketList;
     UserProfile userProfile;
     TextView banknote;
+    TextView comment;
 
     private Gson gson = new GsonBuilder().create();
     private APIv1 intface = ApiFactory.getInstance().getApi();
@@ -96,6 +97,7 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         banknote = (TextView)findViewById(R.id.Banknote);
+        comment = (TextView)findViewById(R.id.Comment);
 
         //установим доступность кнопки заказа
         CreateOrder = (Button)findViewById(R.id.CreateOrder);
@@ -256,7 +258,7 @@ public class BasketActivity extends AppCompatActivity implements View.OnClickLis
 
         List<OrderProducts> orderProducts = OrderProducts.getOrderProductsNew();
 
-        MyOrder myOrder = new MyOrder(0, Basket.getBasketSumm(), paymentType, 1, delivery, userProfile, orderProducts, 1, "new", new Date(), banknote.getText().toString());
+        MyOrder myOrder = new MyOrder(0, Basket.getBasketSumm(), paymentType, 1, delivery, userProfile, orderProducts, 1, "new", new Date(), banknote.getText().toString(), comment.getText().toString());
         try{
             myOrder.save();
             for(OrderProducts op : NewOrderProducts){
