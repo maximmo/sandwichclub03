@@ -103,9 +103,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.likes.setOnClickListener(likeItemPress);
 
         if (selected[position]) {
-            holder.likes.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_20_red, 0, 0, 0);
+            holder.likes.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_red, 0, 0, 0);
         } else {
-            holder.likes.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_20_gray, 0, 0, 0);
+            holder.likes.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_grey, 0, 0, 0);
         }
 
 //        if(position >lastPosition) {
@@ -148,78 +148,86 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         @Override
         public void onClick(View v) {
             int position = Integer.parseInt(v.getTag().toString());
-            Product product = getItem(position);
+            final Product product = getItem(position);
+            final TextView likesTextView;
 
             Boolean state = selected[position];
 
             if (product != null) {
 
+                final int oldlike = product.like;
 
-                if (!state) {
-                    View parent = (View) v.getParent();
-                    if (parent != null) {
-                        int newLikes = product.LikesPlus(1);
+                View parent = (View) v.getParent();
+                if (parent != null) {
 
-                        TextView likesTextView = (TextView) parent.findViewById(R.id.likes);
+                    likesTextView = (TextView) parent.findViewById(R.id.likes);
+                    int newLikes = 0;
 
+                    if (!state) {
+                        newLikes = product.LikesPlus(1);
                         if (likesTextView != null) {
-                            likesTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_20_red, 0, 0, 0);
+                            likesTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_red, 0, 0, 0);
                             likesTextView.setText(String.valueOf(newLikes));
                         }
                         selected[position] = true;
-                    }
-                } else {
-                    View parent = (View) v.getParent();
-                    if (parent != null) {
-                        int newLikes = product.LikesPlus(-1);
-
-                        TextView likesTextView = (TextView) parent.findViewById(R.id.likes);
-
+                    } else {
+                        newLikes = product.LikesPlus(-1);
                         if (likesTextView != null) {
-                            likesTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_20_gray, 0, 0, 0);
+                            likesTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_grey, 0, 0, 0);
                             likesTextView.setText(String.valueOf(newLikes));
                         }
                         selected[position] = false;
                     }
-                }
 
-                //здесь отправим запрос на сайт, обновим количество лайков
-                RequestBody rb;
-                LinkedHashMap<String, RequestBody> hashMap = new LinkedHashMap<>();
+                    //здесь отправим запрос на сайт, обновим количество лайков
+                    RequestBody rb;
+                    LinkedHashMap<String, RequestBody> hashMap = new LinkedHashMap<>();
 
-                rb = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(product.like));
-                hashMap.put("like", rb);
+                    rb = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(product.like));
+                    hashMap.put("like", rb);
 
-                ApiFactory.getInstance().getApi().UpdateProduct(hashMap, product.getId().intValue()).enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    ApiFactory.getInstance().getApi().UpdateProduct(hashMap, product.getId().intValue()).enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-                        if(response.isSuccessful()){
-                            String MyMessage = null;
-                            try {
-                                MyMessage = response.body().string();
+                            if (response.isSuccessful()) {
+                                String MyMessage;
+                                try {
+                                    MyMessage = response.body().string();
 
-                                Gson gson = new GsonBuilder().create();
+                                    Gson gson = new GsonBuilder().create();
 
-                                Map<String, String> map = gson.fromJson(MyMessage, Map.class);
+                                    Map<String, String> map = gson.fromJson(MyMessage, Map.class);
+                                    if (map != null) {
+                                        Object newlike = map.get("like");
+                                        setLike(product, Integer.parseInt(newlike.toString()), likesTextView);
+                                    }
 
-
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    setLike(product, oldlike, likesTextView);
+                                }
+                            } else {
+                                setLike(product, oldlike, likesTextView);
                             }
-
-
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            setLike(product, oldlike, likesTextView);
+                        }
+                    });
+                }
             }
         }
     };
+
+    void setLike(Product product, int like, TextView likesTextView) {
+        product.like = like;
+        product.save();
+
+        likesTextView.setText(String.valueOf(like));
+    }
 
     @Override
     public int getItemCount() {

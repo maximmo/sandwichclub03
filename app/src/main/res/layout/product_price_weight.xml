@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:textAllCaps="false"
             android:textColor="@color/colorEndSpinner"
-            android:drawableLeft="@drawable/cart_fa"
+            android:drawableLeft="@drawable/ic_cart_fa"
             android:textSize="14sp"
             android:textStyle="normal"
             android:text="@string/btn_price_text"
