@@ -11,7 +11,7 @@ public class ApiFactory{
 
     private ApiFactory(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://admin.serv-techno.ru/")
+                .baseUrl("http://admin.snoopy03.ru/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

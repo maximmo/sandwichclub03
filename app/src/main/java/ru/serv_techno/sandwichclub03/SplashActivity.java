@@ -115,7 +115,7 @@ public class SplashActivity extends AppCompatActivity {
                     int ProductPages = Integer.parseInt(TotalProductPages);
 
                     for (int myIncrement = 1; myIncrement <= ProductPages; myIncrement++) {
-                        Response<List<Product>> responseIncrement = ApiFactory.getInstance().getApi().getProducts(50, 1).execute();
+                        Response<List<Product>> responseIncrement = ApiFactory.getInstance().getApi().getProducts(50, myIncrement).execute();
                         if (responseIncrement != null) {
                             productList.addAll(responseIncrement.body());
 
